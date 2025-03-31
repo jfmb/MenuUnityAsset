@@ -27,7 +27,7 @@ namespace Services
             ResetPlayerPrefs();
             InstallDeviceAdapters();
             InstallLanguages();
-            InstallAppInfo();
+//            InstallAppInfo();
             InstallEventQueue();
             StartNextScene();
 

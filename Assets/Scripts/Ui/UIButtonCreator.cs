@@ -1,4 +1,8 @@
+using System;
 using ScriptableObjects;
+using ScriptableObjects.Classes.Ids;
+using Services.EventQueue;
+using Services.EventQueue.Events.ScriptableObjects;
 using TMPro;
 using UnityEngine;
 
@@ -6,16 +10,20 @@ public class UIButtonCreator : MonoBehaviour
 {
     [SerializeField] private TMP_Text text;
 
-    private string _eventName;
+    private EventId _menuOptionEventId;
+    private MenuOptionId _menuOptionId;
     
     public void Setup(OptionSO optionSo)
     {
         text.text = optionSo.Text;
-        _eventName = optionSo.EventName;
+        _menuOptionEventId = optionSo.EventId;
+        _menuOptionId = optionSo.OptionId;
     }
 
     public void SendEventFromButton()
     {
-        Debug.Log("Option " + _eventName +" sent");
+        Debug.Log("Sending event...!");
+        var args = new StringEventData(_menuOptionId.Id);
+        ServiceLocator.GetService<EventQueue>().EnqueueEvent(_menuOptionEventId, args);
     }
 }

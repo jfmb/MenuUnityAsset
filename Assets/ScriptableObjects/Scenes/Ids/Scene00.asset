@@ -9,8 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86c4bc326ded488e947500a74f97f14f, type: 3}
-  m_Name: OptionSO
+  m_Script: {fileID: 11500000, guid: 3b6d8070e511ca84d9935a49ba3512c6, type: 3}
+  m_Name: Scene00
   m_EditorClassIdentifier: 
-  text: New game
-  eventName: event New Game
+  id: Scene00
