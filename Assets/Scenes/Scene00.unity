@@ -258,6 +258,7 @@ MonoBehaviour:
   eventsToInstall:
   - {fileID: 11400000, guid: 7c75b3ee938e77743beae8e48b250c2e, type: 2}
   - {fileID: 11400000, guid: 201855df554fa05468b2436645f95833, type: 2}
+  - {fileID: 11400000, guid: 6002c4ff47b586f4383a25ca226e5c21, type: 2}
 --- !u!4 &1761582227
 Transform:
   m_ObjectHideFlags: 0
