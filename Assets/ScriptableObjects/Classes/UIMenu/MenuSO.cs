@@ -9,8 +9,11 @@ namespace ScriptableObjects
     {
         [SerializeField] private MenuId menuId;
         [SerializeField] private List<OptionSO> allOptions;
+        [SerializeField] private List<SubOptionSO> allSubOptions;
 
         public MenuId Id => menuId;
         public List<OptionSO> AllOptions => allOptions;
+
+        public List<SubOptionSO> AllSubOptions => allSubOptions;
     }
 }
