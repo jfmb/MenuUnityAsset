@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9eeaf0a5d2bdd344696ce901d1185267, type: 3}
   m_Name: LoginResultBooleanEventSO
   m_EditorClassIdentifier: 
-  id: {fileID: 11400000, guid: d2f8d206f88ba96488aade39500d708d, type: 2}
+  id: {fileID: 11400000, guid: b150e77b9dccf994d92bb516c2b08689, type: 2}
