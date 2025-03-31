@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9eeaf0a5d2bdd344696ce901d1185267, type: 3}
+  m_Name: GameIsRunningBooleanEventSO
+  m_EditorClassIdentifier: 
+  id: {fileID: 11400000, guid: 15518a974b2a49f41b7a114df6b52b99, type: 2}
