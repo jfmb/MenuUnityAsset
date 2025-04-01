@@ -8,11 +8,12 @@ using UnityEngine;
 public class UIEventListener : MonoBehaviour
 {
     [SerializeField] private EventId menuOptionEventId;
-    [SerializeField] private List<MenuOption> menuOptions;
 
     private Dictionary<string, MenuOption> _allMenuOptions = new ();
     void Start()
     {
+        var menuOptions = transform.GetComponentsInChildren<MenuOption>();
+        
         foreach (var option in menuOptions)
         {
             var key = option.OptionId.Id;
@@ -25,7 +26,6 @@ public class UIEventListener : MonoBehaviour
 
     private void OnNewMenuOptionEvent(object source, StringEventData args)
     {
-        Debug.Log("Event MenuOption Received!!!");
         _allMenuOptions[args.Value].Execute();
     }
 

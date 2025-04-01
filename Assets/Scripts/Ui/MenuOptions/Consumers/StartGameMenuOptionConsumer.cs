@@ -20,7 +20,6 @@ namespace Ui.MenuOptions.Consumers
         private void StartNextScene()
         {
             var args = new StringEventData(nextSceneId.Id);
-            Debug.Log("before enqueue");
             ServiceLocator.GetService<EventQueue>().EnqueueEvent(loadSceneEventId, args);
         }
     }
