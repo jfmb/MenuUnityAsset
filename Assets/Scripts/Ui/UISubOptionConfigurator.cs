@@ -30,7 +30,6 @@ public class UISubOptionConfigurator : MonoBehaviour
         }
         
         _currentValue++;
-        Debug.Log("Current value: " + _currentValue);
         value.text = _allValues[_currentValue];
     }
 
@@ -42,7 +41,6 @@ public class UISubOptionConfigurator : MonoBehaviour
         }
         
         _currentValue--;
-        Debug.Log("Current value: " + _currentValue);
         value.text = _allValues[_currentValue];        
     }
 }
