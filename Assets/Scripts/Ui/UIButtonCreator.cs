@@ -1,4 +1,3 @@
-using System;
 using ScriptableObjects;
 using ScriptableObjects.Classes.Ids;
 using Services.EventQueue;
@@ -22,7 +21,6 @@ public class UIButtonCreator : MonoBehaviour
 
     public void SendEventFromButton()
     {
-        Debug.Log("Sending event...!");
         var args = new StringEventData(_menuOptionId.Id);
         ServiceLocator.GetService<EventQueue>().EnqueueEvent(_menuOptionEventId, args);
     }

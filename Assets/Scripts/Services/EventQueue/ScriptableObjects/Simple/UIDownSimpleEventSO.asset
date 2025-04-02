@@ -9,13 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a1b9c896d6ae6a4a892f34ca5f7aaa7, type: 3}
-  m_Name: DificultySubOptionSO
+  m_Script: {fileID: 11500000, guid: 334665c0dae57e24c9cfef860b4f0f94, type: 3}
+  m_Name: UIDownSimpleEventSO
   m_EditorClassIdentifier: 
-  subOptionId: {fileID: 11400000, guid: 683a202238838ac45be2c75eab448795, type: 2}
-  title: Dificulty
-  allValues:
-  - Easy
-  - Medium
-  - Hard
-  defaultValueIndex: 1
+  id: {fileID: 11400000, guid: ee2c6b756aa1c0447a558b1d978730b4, type: 2}

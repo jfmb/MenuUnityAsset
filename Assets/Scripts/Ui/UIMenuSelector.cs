@@ -1,22 +1,26 @@
-using System;
 using System.Collections.Generic;
 using ScriptableObjects.Ids;
 using Services.EventQueue;
 using Services.EventQueue.Events.ScriptableObjects;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-public class UIMenuBuilder : MonoBehaviour
+public class UIMenuSelector : MonoBehaviour
 {
     [SerializeField] private List<UIMenuConfigurator> menus;
     [SerializeField] private MenuId mainMenu;
     [SerializeField] private EventId menuToEnableEventId;
     
     private readonly Dictionary<string, UIMenuConfigurator> _allMenus = new ();
+    
     private string _currentMenuIdEnabled;
 
+    private UIMenuNavigator _uiCurrentMenuNavigator;
+    
     void Start()
     {
+        _uiCurrentMenuNavigator = GetComponent<UIMenuNavigator>();
+        _uiCurrentMenuNavigator.SubscribeToEvents();
+        
         var menuToEnableEvent = (StringEvent) ServiceLocator.GetService<EventQueue>().GetEventWithEventId(menuToEnableEventId);
         menuToEnableEvent.StringEventSender += OnNewMenuEnableEvent;
         
@@ -45,15 +49,26 @@ public class UIMenuBuilder : MonoBehaviour
 
     private void EnableNewMenuWith(string id)
     {
-        if (_currentMenuIdEnabled != null)
+        if (!CurrentMenuIdIsEmptyBecauseIsFirstTime())
         {
+            _uiCurrentMenuNavigator.UnsubscribeToEvents();
             _allMenus[_currentMenuIdEnabled].gameObject.SetActive(false);
         }
        
         _allMenus[id].gameObject.SetActive(true);
+
+        _uiCurrentMenuNavigator.InjectMenuElements(_allMenus[id].AllMenuElements);
+        _uiCurrentMenuNavigator.Setup();
+        _uiCurrentMenuNavigator.PointToFirstElement();
+        
         _currentMenuIdEnabled = id;
     }
 
+    private bool CurrentMenuIdIsEmptyBecauseIsFirstTime()
+    {
+        return string.IsNullOrEmpty(_currentMenuIdEnabled);
+    }
+    
     private void OnDestroy()
     {
         var menuToEnableEvent = (StringEvent) ServiceLocator.GetService<EventQueue>().GetEventWithEventId(menuToEnableEventId);

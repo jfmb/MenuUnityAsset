@@ -582,8 +582,9 @@ GameObject:
   m_Component:
   - component: {fileID: 669121929}
   - component: {fileID: 669121930}
+  - component: {fileID: 669121931}
   m_Layer: 0
-  m_Name: UIMenuBuilder
+  m_Name: UIMenuSelector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -623,6 +624,22 @@ MonoBehaviour:
   - {fileID: 1551006444}
   mainMenu: {fileID: 11400000, guid: 1cfa24d82cf09ec45b0669ec0b3455d8, type: 2}
   menuToEnableEventId: {fileID: 11400000, guid: ae9daea5d90583d41a601dab73bb2753, type: 2}
+--- !u!114 &669121931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 669121927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7882faedf9c1e864f89cad5414fb38e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UIUpEventId: {fileID: 11400000, guid: 1d756fa6e23d6414e9f1e86b3600b040, type: 2}
+  UIDownEventId: {fileID: 11400000, guid: ee2c6b756aa1c0447a558b1d978730b4, type: 2}
+  UISelectEventId: {fileID: 11400000, guid: 8c6f018e150cb1246a15d4f3263e092a, type: 2}
+  SendIndexEventId: {fileID: 11400000, guid: 2b893c13ed9817f49a002787633ad853, type: 2}
 --- !u!1 &795396941
 GameObject:
   m_ObjectHideFlags: 0
@@ -957,6 +974,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputActions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  uiUpEventId: {fileID: 11400000, guid: 1d756fa6e23d6414e9f1e86b3600b040, type: 2}
+  uiDownEventId: {fileID: 11400000, guid: ee2c6b756aa1c0447a558b1d978730b4, type: 2}
+  uiSelectEventId: {fileID: 11400000, guid: 8c6f018e150cb1246a15d4f3263e092a, type: 2}
 --- !u!4 &1356184815
 Transform:
   m_ObjectHideFlags: 0
@@ -1025,7 +1045,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -325, y: 0}
+  m_AnchoredPosition: {x: -325, y: -0.6}
   m_SizeDelta: {x: 527, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1551006444
@@ -1185,7 +1205,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1964937848
 Transform:
   m_ObjectHideFlags: 0
