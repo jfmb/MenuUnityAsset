@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff7f513de22875440972208ed86f113c, type: 3}
-  m_Name: SendIndexEventId
+  m_Script: {fileID: 11500000, guid: 334665c0dae57e24c9cfef860b4f0f94, type: 3}
+  m_Name: UIRightSimpleEventSO
   m_EditorClassIdentifier: 
-  id: SendIndexEventId
+  id: {fileID: 11400000, guid: ee2c6b756aa1c0447a558b1d978730b4, type: 2}
