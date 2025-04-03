@@ -12,7 +12,6 @@ public class UIMenuConfigurator : MonoBehaviour
 
     public MenuSO MenuSo => menuSO;
 
-
     private List<GameObject> _allMenuElements = new();
     public List<GameObject> AllMenuElements => _allMenuElements;
 
@@ -20,6 +19,7 @@ public class UIMenuConfigurator : MonoBehaviour
     {
         Assert.IsNotNull(MenuSo, "menuSO can't be null");
 
+        Debug.Log("Setup up in Menu Configurator in object " + name);
         BuildSubOptions();
         
         BuildOptions();

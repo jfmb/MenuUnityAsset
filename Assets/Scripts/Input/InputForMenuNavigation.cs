@@ -4,6 +4,7 @@ using Services.EventQueue;
 using Services.EventQueue.Events.ScriptableObjects;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 public class InputForMenuNavigation : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class InputForMenuNavigation : MonoBehaviour
     
     [SerializeField] private EventId uiUpEventId;
     [SerializeField] private EventId uiDownEventId;
-    [SerializeField] private EventId uiSelectEventId;
+    [SerializeField] private EventId usingMouseEventId;
 
     private InputActionMap _actionMap;
 
@@ -27,38 +28,45 @@ public class InputForMenuNavigation : MonoBehaviour
         // clickAction.performed += PerformClick;
         // clickAction.Enable();
     }
+    //
+    // private void PerformClick(InputAction.CallbackContext obj)
+    // {
+    //     if (obj.control.device is Mouse)
+    //     {
+    //         SendEventIsUsingMouse(true);
+    //         return;
+    //     }
+    //
+    //     SendEventIsUsingMouse(false);
+    // }
 
-    private void PerformClick(InputAction.CallbackContext obj)
+    private void SendEventIsUsingMouse(bool isUsingMouse)
     {
-            DoThingsWhenClic();
-    }
-
-    private void DoThingsWhenClic()
-    {
-        ServiceLocator.GetService<EventQueue>().EnqueueEvent(uiSelectEventId, EventArgs.Empty);
-        Debug.Log("Select event received");
+        var args = new BooleanEventData(isUsingMouse);
+        ServiceLocator.GetService<EventQueue>().EnqueueEvent(usingMouseEventId, args);
+        Debug.Log("IsUsingMouse event sent");
     }
 
     private void PerformNavigation(InputAction.CallbackContext ctx)
     {
         var direction = ctx.ReadValue<Vector2>();
-        if (direction.y == 1)
+        if (direction.x == 1)
         {
-            DoThingsWhenInputIsUp();
+            DoThingsWhenInputIsRight();
         }
 
-        if (direction.y == -1)
+        if (direction.x == -1)
         {
-            DoThingsWhenInputIsDown();
+            DoThingsWhenInputIsLeft();
         }
     }
 
-    private void DoThingsWhenInputIsUp()
+    private void DoThingsWhenInputIsRight()
     {
 //        ServiceLocator.GetService<EventQueue>().EnqueueEvent(uiUpEventId, EventArgs.Empty);
     }
 
-    private void DoThingsWhenInputIsDown()
+    private void DoThingsWhenInputIsLeft()
     {
 //        ServiceLocator.GetService<EventQueue>().EnqueueEvent(uiDownEventId, EventArgs.Empty);
     }

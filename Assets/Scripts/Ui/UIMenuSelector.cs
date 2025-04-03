@@ -43,25 +43,33 @@ public class UIMenuSelector : MonoBehaviour
             Debug.Log("MenuId is null or empty");
             return;
         }
-        
+
+        DisableCurrentMenu();
         EnableNewMenuWith(args.Value);
+    }
+
+    private void DisableCurrentMenu()
+    {
+        _uiCurrentMenuNavigator.UnsubscribeToEvents();
+        _allMenus[_currentMenuIdEnabled].gameObject.SetActive(false);
+        Debug.Log("Menu to disable id: " + _currentMenuIdEnabled);
     }
 
     private void EnableNewMenuWith(string id)
     {
-        if (!CurrentMenuIdIsEmptyBecauseIsFirstTime())
-        {
-            _uiCurrentMenuNavigator.UnsubscribeToEvents();
-            _allMenus[_currentMenuIdEnabled].gameObject.SetActive(false);
-        }
-       
-        _allMenus[id].gameObject.SetActive(true);
-
-        _uiCurrentMenuNavigator.InjectMenuElements(_allMenus[id].AllMenuElements);
-        _uiCurrentMenuNavigator.Setup();
-        _uiCurrentMenuNavigator.PointToFirstElement();
-        
         _currentMenuIdEnabled = id;
+        Debug.Log("Menu to enable id: " + id);
+        
+        _allMenus[_currentMenuIdEnabled].gameObject.SetActive(true);
+
+        _uiCurrentMenuNavigator.Setup();
+
+        foreach (var element in _allMenus[_currentMenuIdEnabled].AllMenuElements)
+        {
+            Debug.Log("Element: " + element.name);
+        }
+        _uiCurrentMenuNavigator.InjectMenuElements(_allMenus[_currentMenuIdEnabled].AllMenuElements);
+        _uiCurrentMenuNavigator.PointToFirstElement();
     }
 
     private bool CurrentMenuIdIsEmptyBecauseIsFirstTime()
