@@ -5,8 +5,29 @@ public class InputForGeneral : MonoBehaviour
 {
     [SerializeField] private InputActionAsset inputActions;
     
-    private InputActionMap actionMap;
+    private InputActionMap _actionMap;
 
+    private void OnEnable()
+    {
+        InputSystem.onDeviceChange += DeviceChange;
+    }
+    
+        
+    private void DeviceChange(InputDevice device, InputDeviceChange change)
+    {
+        
+        if (change == InputDeviceChange.Added)
+        {
+//            SubscribeToEvents();
+            Debug.Log("Device Connected: " + device);
+        }
+        else if (change == InputDeviceChange.Removed)
+        {
+//            UnsubscribeToEvents();
+            Debug.Log("Device Disconnected: " + device);
+        }
+    }
+    
     private void SetupGeneralInput()
     {
         var generalActionMap = inputActions.FindActionMap("General");
@@ -23,6 +44,8 @@ public class InputForGeneral : MonoBehaviour
     
     private void OnDisable()
     {
+        InputSystem.onDeviceChange -= DeviceChange;
+        
         var generalActionMap = inputActions.FindActionMap("General");
         var navigateAction = generalActionMap.FindAction("Settings");
 

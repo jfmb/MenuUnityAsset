@@ -24,10 +24,7 @@ public class UIMenuNavigator : MonoBehaviour
     private Mouse _mouse;
     private Gamepad _gamepad;
     
-    void OnEnable()
-    {
-        InputSystem.onDeviceChange += DeviceChange;
-    }
+
     
     void Awake()
     {
@@ -121,50 +118,60 @@ public class UIMenuNavigator : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(_allMenuElements[0]);
     }
     
-    
-    private void DeviceChange(InputDevice device, InputDeviceChange change)
+    private void Update()
     {
+        CheckKeyboard();
+
+        CheckMouse();
+
+        CheckGamepad();
+    }
+
+    private void CheckKeyboard()
+    {
+        if (!_keyboard.anyKey.wasPressedThisFrame)
+        {
+            return;
+        }
         
-        if (change == InputDeviceChange.Added)
-        {
-//            SubscribeToEvents();
-            Debug.Log("Device Connected: " + device);
-        }
-        else if (change == InputDeviceChange.Removed)
-        {
-//            UnsubscribeToEvents();
-            Debug.Log("Device Disconnected: " + device);
-        }
+        _isUsingMouse = false;
+        Debug.Log("User is using the keyboard");
+        PointToFirstElement();
     }
     
+    private void CheckMouse()
+    {
+        if (!_mouse.leftButton.wasPressedThisFrame && !_mouse.rightButton.wasPressedThisFrame)
+        {
+            return;
+        }
+        Debug.Log("User is using the mouse.");
+        _isUsingKeyboardAlready = false;
+        _isUsingMouse = true;
+    }
+
+    private void CheckGamepad()
+    {
+        if (!IsGamepadTouched())
+        {
+            return;
+        }
+        _isUsingMouse = false;
+        Debug.Log("User is using the gamepad");
+        PointToFirstElement();
+    }
     
-    void Update()
+    private bool IsGamepadTouched()
     {
-        if (_keyboard.anyKey.wasPressedThisFrame )
-        {
-            _isUsingMouse = false;
-            Debug.Log("User is using the keyboard");
-            PointToFirstElement();
-        }
-
-        if (_mouse.leftButton.wasPressedThisFrame || _mouse.rightButton.wasPressedThisFrame)
-        {
-            Debug.Log("User is using the mouse.");
-            _isUsingKeyboardAlready = false;
-            _isUsingMouse = true;
-        }
-
-        if (_gamepad.leftStick.value.y > 0)
-        {
-            _isUsingMouse = false;
-            Debug.Log("User is using the gamepad");
-            PointToFirstElement();
-        }
+        return (_gamepad.leftStick.value.y > 0 ||
+                _gamepad.leftStick.value.y < 0 ||
+                _gamepad.buttonSouth.wasPressedThisFrame ||
+                _gamepad.leftTrigger.wasPressedThisFrame ||
+                _gamepad.rightTrigger.wasPressedThisFrame ||
+                _gamepad.startButton.wasPressedThisFrame ||
+                _gamepad.selectButton.wasPressedThisFrame);
     }
-    void OnDisable()
-    {
-        InputSystem.onDeviceChange -= DeviceChange;
-    }
+
     
     public void UnsubscribeToEvents()
     {

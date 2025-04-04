@@ -1,10 +1,7 @@
-using System;
-using System.Runtime.CompilerServices;
 using Services.EventQueue;
 using Services.EventQueue.Events.ScriptableObjects;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 
 public class InputForMenuNavigation : MonoBehaviour
 {
