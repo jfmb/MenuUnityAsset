@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Services.EventQueue;
 using Services.EventQueue.Events.ScriptableObjects;
 using UnityEngine;
@@ -7,12 +8,14 @@ using UnityEngine.InputSystem;
 public class InputForMenuNavigation : MonoBehaviour
 {
     [SerializeField] private InputActionAsset inputActions;
+    [SerializeField] private float delayForGamepadJoystick;
     
     [SerializeField] private EventId uiLeftEventId;
     [SerializeField] private EventId uiRightEventId;
     [SerializeField] private EventId usingMouseEventId;
 
     private InputActionMap _actionMap;
+    private bool _joystickCanBeUsed = true;
 
     private void Start()
     {
@@ -21,28 +24,6 @@ public class InputForMenuNavigation : MonoBehaviour
         var navigateActionMap = _actionMap.FindAction("Navigate");
         navigateActionMap.performed += PerformNavigation;
         navigateActionMap.Enable();
-
-        // var clickAction = _actionMap.FindAction("Click");
-        // clickAction.performed += PerformClick;
-        // clickAction.Enable();
-    }
-    //
-    // private void PerformClick(InputAction.CallbackContext obj)
-    // {
-    //     if (obj.control.device is Mouse)
-    //     {
-    //         SendEventIsUsingMouse(true);
-    //         return;
-    //     }
-    //
-    //     SendEventIsUsingMouse(false);
-    // }
-
-    private void SendEventIsUsingMouse(bool isUsingMouse)
-    {
-        var args = new BooleanEventData(isUsingMouse);
-        ServiceLocator.GetService<EventQueue>().EnqueueEvent(usingMouseEventId, args);
-        Debug.Log("IsUsingMouse event sent");
     }
 
     private void PerformNavigation(InputAction.CallbackContext ctx)
@@ -64,12 +45,32 @@ public class InputForMenuNavigation : MonoBehaviour
 
     private void DoThingsWhenInputIsLeft()
     {
+        if (!_joystickCanBeUsed)
+        {
+            return;
+        }
         ServiceLocator.GetService<EventQueue>().EnqueueEvent(uiLeftEventId, EventArgs.Empty);
+
+        StartCoroutine(WaitToBeAbleToUseJoystickAgain());
     }
 
-    private void DoThingsWhenInputIsRight()
+    IEnumerator WaitToBeAbleToUseJoystickAgain()
     {
+        _joystickCanBeUsed = false;
+
+        yield return new WaitForSeconds(delayForGamepadJoystick);
+        _joystickCanBeUsed = true;
+    }
+    
+    private void DoThingsWhenInputIsRight()
+    {        
+        if (!_joystickCanBeUsed)
+        {
+            return;
+        }
+        
         ServiceLocator.GetService<EventQueue>().EnqueueEvent(uiRightEventId, EventArgs.Empty);
+        StartCoroutine(WaitToBeAbleToUseJoystickAgain());
     }
     
     private void OnDisable()

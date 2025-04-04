@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Services.EventQueue;
 using Services.EventQueue.Events.ScriptableObjects;
@@ -11,6 +12,7 @@ public class UIMenuNavigator : MonoBehaviour
     [SerializeField] private EventId UILeftEventId;
     [SerializeField] private EventId UIRIghtEventId;
     [SerializeField] private EventId usingMouseEventId;
+    [SerializeField] private UIShowMessage uiMessage;
     
     private List<GameObject> _allMenuElements = new();
 
@@ -20,6 +22,8 @@ public class UIMenuNavigator : MonoBehaviour
     private Keyboard _keyboard;
     private Mouse _mouse;
     private Gamepad _gamepad;
+
+    private Vector2 _lastMousePosition;
     
     private GameObject _lastSelectedGameObject;
     
@@ -28,6 +32,8 @@ public class UIMenuNavigator : MonoBehaviour
         _keyboard = InputSystem.GetDevice<Keyboard>();
         _mouse = InputSystem.GetDevice<Mouse>();
         _gamepad = InputSystem.GetDevice<Gamepad>();
+        
+        _lastMousePosition = Mouse.current.position.ReadValue();
     }
     
     public void Setup()
@@ -82,7 +88,7 @@ public class UIMenuNavigator : MonoBehaviour
 
         if (_isUsingKeyboardAlready)
         {
-            Debug.Log("Keyboard is in use already");
+            Debug.Log("Keyboard or gamepad is in use already");
             return;
         }
         
@@ -138,17 +144,40 @@ public class UIMenuNavigator : MonoBehaviour
         }
         
         _isUsingMouse = false;
-        Debug.Log("User is using the keyboard");
+        
+        uiMessage.TextToShow = "Keyboard";
+        
         PointToFirstElement();
     }
     
     private void CheckMouse()
     {
+        // Get the current mouse position
+        // Vector2 currentMousePosition = Mouse.current.position.ReadValue();
+        //
+        // // Check if the mouse has moved
+        // if (currentMousePosition == _lastMousePosition)
+        // {
+        //     EventSystem.current.SetSelectedGameObject(null);
+        //     _isUsingMouse = true;
+        // }
+        // if (!_isUsingMouse)
+        // {
+        //     return;
+        // }
+        //
+        // Debug.Log("Mouse is moving");
+
+        // Update lastMousePosition for the next frame
+        // _lastMousePosition = currentMousePosition;
+        
         if (!_mouse.leftButton.wasPressedThisFrame && !_mouse.rightButton.wasPressedThisFrame)
         {
             return;
         }
-        Debug.Log("User is using the mouse.");
+        
+        uiMessage.TextToShow = "Mouse";
+
         _isUsingKeyboardAlready = false;
         _isUsingMouse = true;
     }
@@ -160,7 +189,9 @@ public class UIMenuNavigator : MonoBehaviour
             return;
         }
         _isUsingMouse = false;
-        Debug.Log("User is using the gamepad");
+        
+        uiMessage.TextToShow = "Gamepad";
+
         PointToFirstElement();
     }
     
