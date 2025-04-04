@@ -636,8 +636,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7882faedf9c1e864f89cad5414fb38e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UIUpEventId: {fileID: 11400000, guid: 1d756fa6e23d6414e9f1e86b3600b040, type: 2}
-  UIDownEventId: {fileID: 11400000, guid: ee2c6b756aa1c0447a558b1d978730b4, type: 2}
+  UILeftEventId: {fileID: 11400000, guid: 1d756fa6e23d6414e9f1e86b3600b040, type: 2}
+  UIRIghtEventId: {fileID: 11400000, guid: ee2c6b756aa1c0447a558b1d978730b4, type: 2}
   usingMouseEventId: {fileID: 11400000, guid: 7cb648eec110cea40878040a2446903e, type: 2}
 --- !u!1 &795396941
 GameObject:
@@ -973,8 +973,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputActions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
-  uiUpEventId: {fileID: 11400000, guid: 1d756fa6e23d6414e9f1e86b3600b040, type: 2}
-  uiDownEventId: {fileID: 11400000, guid: ee2c6b756aa1c0447a558b1d978730b4, type: 2}
+  uiLeftEventId: {fileID: 11400000, guid: 1d756fa6e23d6414e9f1e86b3600b040, type: 2}
+  uiRightEventId: {fileID: 11400000, guid: ee2c6b756aa1c0447a558b1d978730b4, type: 2}
   usingMouseEventId: {fileID: 11400000, guid: 7cb648eec110cea40878040a2446903e, type: 2}
 --- !u!4 &1356184815
 Transform:

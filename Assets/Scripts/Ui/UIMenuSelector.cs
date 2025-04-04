@@ -19,7 +19,6 @@ public class UIMenuSelector : MonoBehaviour
     void Start()
     {
         _uiCurrentMenuNavigator = GetComponent<UIMenuNavigator>();
-        _uiCurrentMenuNavigator.SubscribeToEvents();
         
         var menuToEnableEvent = (StringEvent) ServiceLocator.GetService<EventQueue>().GetEventWithEventId(menuToEnableEventId);
         menuToEnableEvent.StringEventSender += OnNewMenuEnableEvent;
@@ -50,7 +49,6 @@ public class UIMenuSelector : MonoBehaviour
 
     private void DisableCurrentMenu()
     {
-        _uiCurrentMenuNavigator.UnsubscribeToEvents();
         _allMenus[_currentMenuIdEnabled].gameObject.SetActive(false);
         Debug.Log("Menu to disable id: " + _currentMenuIdEnabled);
     }
@@ -70,11 +68,6 @@ public class UIMenuSelector : MonoBehaviour
         }
         _uiCurrentMenuNavigator.InjectMenuElements(_allMenus[_currentMenuIdEnabled].AllMenuElements);
         _uiCurrentMenuNavigator.PointToFirstElement();
-    }
-
-    private bool CurrentMenuIdIsEmptyBecauseIsFirstTime()
-    {
-        return string.IsNullOrEmpty(_currentMenuIdEnabled);
     }
     
     private void OnDestroy()

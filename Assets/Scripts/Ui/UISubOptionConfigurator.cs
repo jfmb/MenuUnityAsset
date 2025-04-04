@@ -24,23 +24,23 @@ public class UISubOptionConfigurator : MonoBehaviour
 
     public void IncreaseValueFromButton()
     {
-        if (_currentValue == _allValues.Count-1)
+        _currentValue++;
+        if (_currentValue == _allValues.Count)
         {
-            return;
+            _currentValue = 0;
         }
         
-        _currentValue++;
         value.text = _allValues[_currentValue];
     }
 
     public void DecreaseValueFromButton()
     {
-        if (_currentValue == 0)
+        _currentValue--;
+        if (_currentValue < 0)
         {
-            return;
+            _currentValue = _allValues.Count-1;
         }
         
-        _currentValue--;
         value.text = _allValues[_currentValue];        
     }
 }

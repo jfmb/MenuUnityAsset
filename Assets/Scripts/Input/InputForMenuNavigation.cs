@@ -1,3 +1,4 @@
+using System;
 using Services.EventQueue;
 using Services.EventQueue.Events.ScriptableObjects;
 using UnityEngine;
@@ -7,8 +8,8 @@ public class InputForMenuNavigation : MonoBehaviour
 {
     [SerializeField] private InputActionAsset inputActions;
     
-    [SerializeField] private EventId uiUpEventId;
-    [SerializeField] private EventId uiDownEventId;
+    [SerializeField] private EventId uiLeftEventId;
+    [SerializeField] private EventId uiRightEventId;
     [SerializeField] private EventId usingMouseEventId;
 
     private InputActionMap _actionMap;
@@ -47,27 +48,30 @@ public class InputForMenuNavigation : MonoBehaviour
     private void PerformNavigation(InputAction.CallbackContext ctx)
     {
         var direction = ctx.ReadValue<Vector2>();
-        if (direction.x == 1)
-        {
-            DoThingsWhenInputIsRight();
-        }
-
+        
         if (direction.x == -1)
         {
+            Debug.Log("Joystick Left");
             DoThingsWhenInputIsLeft();
         }
-    }
-
-    private void DoThingsWhenInputIsRight()
-    {
-//        ServiceLocator.GetService<EventQueue>().EnqueueEvent(uiUpEventId, EventArgs.Empty);
+        
+        if (direction.x == 1)
+        {
+            Debug.Log("Joystick Right");
+            DoThingsWhenInputIsRight();
+        }
     }
 
     private void DoThingsWhenInputIsLeft()
     {
-//        ServiceLocator.GetService<EventQueue>().EnqueueEvent(uiDownEventId, EventArgs.Empty);
+        ServiceLocator.GetService<EventQueue>().EnqueueEvent(uiLeftEventId, EventArgs.Empty);
     }
 
+    private void DoThingsWhenInputIsRight()
+    {
+        ServiceLocator.GetService<EventQueue>().EnqueueEvent(uiRightEventId, EventArgs.Empty);
+    }
+    
     private void OnDisable()
     {
         var navigateAction = _actionMap.FindAction("Navigate");

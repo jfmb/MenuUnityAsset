@@ -7,10 +7,10 @@ public class UIMenuElement : MonoBehaviour
 
     public Selectable SelectableInElement => selectable;
 
+    public bool IsSubOption { get; set; }
+
     public void SetSelectedElement()
     {
-//        selectable.targetGraphic.color = selectable.colors.selectedColor;
-//        selectable.Select();
     }
 
     

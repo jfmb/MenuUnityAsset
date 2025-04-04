@@ -8,14 +8,11 @@ using UnityEngine.InputSystem;
 
 public class UIMenuNavigator : MonoBehaviour
 {
-    [SerializeField] private EventId UIUpEventId;
-    [SerializeField] private EventId UIDownEventId;
+    [SerializeField] private EventId UILeftEventId;
+    [SerializeField] private EventId UIRIghtEventId;
     [SerializeField] private EventId usingMouseEventId;
     
     private List<GameObject> _allMenuElements = new();
-    
-    private int _selectedIndex;
-    private int _currentIndex;
 
     private bool _isUsingMouse;
     private bool _isUsingKeyboardAlready;
@@ -24,7 +21,7 @@ public class UIMenuNavigator : MonoBehaviour
     private Mouse _mouse;
     private Gamepad _gamepad;
     
-
+    private GameObject _lastSelectedGameObject;
     
     void Awake()
     {
@@ -32,28 +29,19 @@ public class UIMenuNavigator : MonoBehaviour
         _mouse = InputSystem.GetDevice<Mouse>();
         _gamepad = InputSystem.GetDevice<Gamepad>();
     }
-
-    private void Start()
-    {
-        SubscribeToEvents();
-    }
     
     public void Setup()
     {
-        _currentIndex = 0;
-        _selectedIndex = _currentIndex;
         _isUsingKeyboardAlready = false;
-        
-        Debug.Log("Menu Navigator is reset");
     }
     
-    public void SubscribeToEvents()
+    public void SubscribeToHorizontalInputEvents()
     {
-        // var uiUpEvent = (SimpleEvent)ServiceLocator.GetService<EventQueue>().GetEventWithEventId(UIUpEventId);
-        // uiUpEvent.SimpleEventSender += OnNewUIUpEvent;
-        //
-        // var uiDownEvent = (SimpleEvent)ServiceLocator.GetService<EventQueue>().GetEventWithEventId(UIDownEventId);
-        // uiDownEvent.SimpleEventSender += OnNewUIDownEvent;
+        var uiLeftEvent = (SimpleEvent)ServiceLocator.GetService<EventQueue>().GetEventWithEventId(UILeftEventId);
+        uiLeftEvent.SimpleEventSender += OnNewUILeftEvent;
+        
+        var uiRightEvent = (SimpleEvent)ServiceLocator.GetService<EventQueue>().GetEventWithEventId(UIRIghtEventId);
+        uiRightEvent.SimpleEventSender += OnNewUIRightEvent;
     }
 
     public void InjectMenuElements(List<GameObject> newMenuElements)
@@ -63,33 +51,25 @@ public class UIMenuNavigator : MonoBehaviour
          Debug.Log("Menu elements count: " + _allMenuElements.Count);
     }
     
-    private void OnNewUIDownEvent()
+    private void OnNewUIRightEvent()
     {
-        Debug.Log("Down event");
-        _allMenuElements[_currentIndex].GetComponent<UIMenuElement>().DeSelectedElement();
-
-        _selectedIndex++;
-        if (_selectedIndex == _allMenuElements.Count)
+        var currentObject = EventSystem.current.currentSelectedGameObject;
+        if (!currentObject.GetComponent<UIMenuElement>().IsSubOption)
         {
-            _selectedIndex = 0;
+            return;
         }
-        _allMenuElements[_selectedIndex].GetComponent<UIMenuElement>().SetSelectedElement();
-        _currentIndex = _selectedIndex;
+        currentObject.GetComponent<UISubOptionConfigurator>().IncreaseValueFromButton();
     }
 
-    private void OnNewUIUpEvent()
+    private void OnNewUILeftEvent()
     {
-        Debug.Log("Up event");
-
-        _allMenuElements[_currentIndex].GetComponent<UIMenuElement>().DeSelectedElement();
-
-        _selectedIndex--;
-        if (_selectedIndex < 0)
+        var currentObject = EventSystem.current.currentSelectedGameObject;
+        if (!currentObject.GetComponent<UIMenuElement>().IsSubOption)
         {
-            _selectedIndex = _allMenuElements.Count - 1;
+            return;
         }
-        _allMenuElements[_selectedIndex].GetComponent<UIMenuElement>().SetSelectedElement();
-        _currentIndex = _selectedIndex;
+        
+        currentObject.GetComponent<UISubOptionConfigurator>().DecreaseValueFromButton();
     }
 
     public void PointToFirstElement()
@@ -125,8 +105,31 @@ public class UIMenuNavigator : MonoBehaviour
         CheckMouse();
 
         CheckGamepad();
+        
+        CheckIfCurrentObjectIsSubOption();
     }
 
+    private void CheckIfCurrentObjectIsSubOption()
+    {
+        if (_lastSelectedGameObject != EventSystem.current.currentSelectedGameObject)
+        {
+            if (_lastSelectedGameObject && _lastSelectedGameObject.GetComponent<UIMenuElement>().IsSubOption)
+            {
+                UnsubscribeToHorizonatalInputEvents();
+            }
+            
+            _lastSelectedGameObject = EventSystem.current.currentSelectedGameObject;
+
+            if (_lastSelectedGameObject)
+            {
+                if (_lastSelectedGameObject.GetComponent<UIMenuElement>().IsSubOption)
+                {                
+                    SubscribeToHorizontalInputEvents();
+                }
+            }
+        } 
+    }
+    
     private void CheckKeyboard()
     {
         if (!_keyboard.anyKey.wasPressedThisFrame)
@@ -163,6 +166,11 @@ public class UIMenuNavigator : MonoBehaviour
     
     private bool IsGamepadTouched()
     {
+        if (_gamepad == null)
+        {
+            return false;
+        }
+        
         return (_gamepad.leftStick.value.y > 0 ||
                 _gamepad.leftStick.value.y < 0 ||
                 _gamepad.buttonSouth.wasPressedThisFrame ||
@@ -173,17 +181,17 @@ public class UIMenuNavigator : MonoBehaviour
     }
 
     
-    public void UnsubscribeToEvents()
+    public void UnsubscribeToHorizonatalInputEvents()
     {
-        // var uiUpEvent = (SimpleEvent)ServiceLocator.GetService<EventQueue>().GetEventWithEventId(UIUpEventId);
-        // uiUpEvent.SimpleEventSender -= OnNewUIUpEvent;
-        //
-        // var uiDownEvent = (SimpleEvent)ServiceLocator.GetService<EventQueue>().GetEventWithEventId(UIDownEventId);
-        // uiDownEvent.SimpleEventSender -= OnNewUIDownEvent;
+        var uiLeftEvent = (SimpleEvent)ServiceLocator.GetService<EventQueue>().GetEventWithEventId(UILeftEventId);
+        uiLeftEvent.SimpleEventSender -= OnNewUILeftEvent;
+        
+        var uiRightEvent = (SimpleEvent)ServiceLocator.GetService<EventQueue>().GetEventWithEventId(UIRIghtEventId);
+        uiRightEvent.SimpleEventSender -= OnNewUIRightEvent;
     }
 
     private void OnDestroy()
     {
-        UnsubscribeToEvents();
+        UnsubscribeToHorizonatalInputEvents();
     }
 }

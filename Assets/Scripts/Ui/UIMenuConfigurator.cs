@@ -31,7 +31,9 @@ public class UIMenuConfigurator : MonoBehaviour
         foreach (var subOption in MenuSo.AllSubOptions)
         {
             var newSubOption = Instantiate(elementSubOption, root);
+            newSubOption.name = subOption.Title;
             newSubOption.GetComponent<UISubOptionConfigurator>().Setup(subOption);
+            newSubOption.GetComponent<UIMenuElement>().IsSubOption = true;
             AllMenuElements.Add(newSubOption);
         }
     }
@@ -42,7 +44,9 @@ public class UIMenuConfigurator : MonoBehaviour
         foreach (var option in MenuSo.AllOptions)
         {
             var newOption = Instantiate(buttonOption, root);
+            newOption.name = option.Text;
             newOption.GetComponent<UIButtonCreator>().Setup(option);
+            newOption.GetComponent<UIMenuElement>().IsSubOption = false;
             AllMenuElements.Add(newOption);
         }
     }
