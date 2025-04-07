@@ -14,8 +14,16 @@ public class InputForMenuNavigation : MonoBehaviour
     [SerializeField] private EventId uiRightEventId;
     [SerializeField] private EventId usingMouseEventId;
 
+    [SerializeField] private KeyboardChecker keyboardChecker;
+    [SerializeField] private MouseChecker mouseChecker;
+    [SerializeField] private GamepadChecker gampepadChecker;
+
     private InputActionMap _actionMap;
     private bool _joystickCanBeUsed = true;
+
+    private bool _isAlreadyUsingMouse;
+    private bool _isAlreadyUsingKeyboard;
+    private bool _isAlreadyUsingGamepad;
 
     private void Start()
     {
@@ -72,7 +80,74 @@ public class InputForMenuNavigation : MonoBehaviour
         ServiceLocator.GetService<EventQueue>().EnqueueEvent(uiRightEventId, EventArgs.Empty);
         StartCoroutine(WaitToBeAbleToUseJoystickAgain());
     }
-    
+
+    private void Update()
+    {
+        CheckKeyboard();
+        CheckMouse();
+        CheckGamepad();
+    }
+
+    private void CheckMouse()
+    {
+        if (!mouseChecker.IsUsingMouse())
+        {
+            return;
+        }
+
+        Cursor.visible = true;
+        _isAlreadyUsingKeyboard = false;
+        _isAlreadyUsingGamepad = false;
+        
+        if (_isAlreadyUsingMouse)
+        {
+            return;
+        }
+
+        _isAlreadyUsingMouse = true;
+        mouseChecker.SendIsUsingMouseEvent();
+    }
+
+    private void CheckKeyboard()
+    {
+        if (!keyboardChecker.IsUsingKeyboard())
+        {
+            return;
+        }
+        _isAlreadyUsingMouse = false;
+        _isAlreadyUsingGamepad = false;
+        Cursor.visible = false;
+
+        if (_isAlreadyUsingKeyboard)
+        {
+            return;
+        }
+        _isAlreadyUsingKeyboard = true;
+        
+        keyboardChecker.SendIsUsingKeyboardEvent();
+    }
+
+    private void CheckGamepad()
+    {
+        if (!gampepadChecker.IsGamepadTouched())
+        {
+            return;
+        }
+        Cursor.visible = false;
+
+        _isAlreadyUsingMouse = false;
+        _isAlreadyUsingKeyboard = false;
+        
+        if (_isAlreadyUsingGamepad)
+        {
+            return;
+        }
+        
+        _isAlreadyUsingGamepad = true;
+        gampepadChecker.SendIsUsingMouseEvent();
+    }
+
+
     private void OnDisable()
     {
         var navigateAction = _actionMap.FindAction("Navigate");

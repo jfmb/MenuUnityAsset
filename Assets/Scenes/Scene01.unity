@@ -819,6 +819,7 @@ GameObject:
   - component: {fileID: 669121930}
   - component: {fileID: 669121931}
   - component: {fileID: 669121932}
+  - component: {fileID: 669121933}
   m_Layer: 0
   m_Name: UIMenuSelector
   m_TagString: Untagged
@@ -872,10 +873,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7882faedf9c1e864f89cad5414fb38e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UILeftEventId: {fileID: 11400000, guid: 1d756fa6e23d6414e9f1e86b3600b040, type: 2}
-  UIRIghtEventId: {fileID: 11400000, guid: ee2c6b756aa1c0447a558b1d978730b4, type: 2}
   usingMouseEventId: {fileID: 11400000, guid: 7cb648eec110cea40878040a2446903e, type: 2}
+  uiHorizontalNavigator: {fileID: 669121933}
   uiMessage: {fileID: 669121932}
+  isUsingKeyboardEventId: {fileID: 11400000, guid: 403d03ffa5945054ca2246ad46365df6, type: 2}
+  isUsingMouseEventId: {fileID: 11400000, guid: 5628f9c7580047947a1a7f1fb3cfa9b1, type: 2}
+  isUsingGamepadEventId: {fileID: 11400000, guid: 55a202588c1cfd04190a4a55ae81d08e, type: 2}
 --- !u!114 &669121932
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -890,6 +893,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   messagePanel: {fileID: 454638112}
   text: {fileID: 658595737}
+--- !u!114 &669121933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 669121927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9abaf2bbbaf2e8f42b9665669c0bf128, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UILeftEventId: {fileID: 11400000, guid: 1d756fa6e23d6414e9f1e86b3600b040, type: 2}
+  UIRIghtEventId: {fileID: 11400000, guid: ee2c6b756aa1c0447a558b1d978730b4, type: 2}
 --- !u!1 &795396941
 GameObject:
   m_ObjectHideFlags: 0
@@ -1205,6 +1222,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1356184815}
   - component: {fileID: 1356184814}
+  - component: {fileID: 1356184816}
+  - component: {fileID: 1356184817}
+  - component: {fileID: 1356184818}
   m_Layer: 0
   m_Name: UIInput
   m_TagString: Untagged
@@ -1229,6 +1249,9 @@ MonoBehaviour:
   uiLeftEventId: {fileID: 11400000, guid: 1d756fa6e23d6414e9f1e86b3600b040, type: 2}
   uiRightEventId: {fileID: 11400000, guid: ee2c6b756aa1c0447a558b1d978730b4, type: 2}
   usingMouseEventId: {fileID: 11400000, guid: 7cb648eec110cea40878040a2446903e, type: 2}
+  keyboardChecker: {fileID: 1356184816}
+  mouseChecker: {fileID: 1356184817}
+  gampepadChecker: {fileID: 1356184818}
 --- !u!4 &1356184815
 Transform:
   m_ObjectHideFlags: 0
@@ -1244,6 +1267,45 @@ Transform:
   m_Children: []
   m_Father: {fileID: 344228959}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1356184816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1356184813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59d867ffb9e67ea45adf07fec70c0f21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isusingKeyboardEventId: {fileID: 11400000, guid: 403d03ffa5945054ca2246ad46365df6, type: 2}
+--- !u!114 &1356184817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1356184813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8a716c9c11545b4b9b7c38161cbd148, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isusingMouseEventId: {fileID: 11400000, guid: 5628f9c7580047947a1a7f1fb3cfa9b1, type: 2}
+--- !u!114 &1356184818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1356184813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ba4595227f445d4fb75869a68caf669, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isusingGamepadEventId: {fileID: 11400000, guid: 55a202588c1cfd04190a4a55ae81d08e, type: 2}
 --- !u!224 &1400115848 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3505372105687403134, guid: 40d0c8267091ea3458bf4daa66024d3f, type: 3}
