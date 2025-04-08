@@ -25,6 +25,11 @@ public class InputForMenuNavigation : MonoBehaviour
     private bool _isAlreadyUsingKeyboard;
     private bool _isAlreadyUsingGamepad;
 
+    private void Awake()
+    {
+        InputSystem.onDeviceChange += DeviceChange;
+    }
+
     private void Start()
     {
         _actionMap = inputActions.FindActionMap("UI");
@@ -34,6 +39,17 @@ public class InputForMenuNavigation : MonoBehaviour
         navigateActionMap.Enable();
     }
 
+    
+    private void DeviceChange(InputDevice device, InputDeviceChange change)
+    {
+        if (device is not Gamepad || change != InputDeviceChange.Added)
+        {
+            return;
+        }
+        DoThingsWhenGamepadIsWorking();
+        Debug.Log("Device Connected: " + device);
+    }
+    
     private void PerformNavigation(InputAction.CallbackContext ctx)
     {
         var direction = ctx.ReadValue<Vector2>();
@@ -133,6 +149,13 @@ public class InputForMenuNavigation : MonoBehaviour
         {
             return;
         }
+
+        DoThingsWhenGamepadIsWorking();
+        gampepadChecker.SendIsUsingGamepadEvent();
+    }
+
+    private void DoThingsWhenGamepadIsWorking()
+    {
         Cursor.visible = false;
 
         _isAlreadyUsingMouse = false;
@@ -144,10 +167,8 @@ public class InputForMenuNavigation : MonoBehaviour
         }
         
         _isAlreadyUsingGamepad = true;
-        gampepadChecker.SendIsUsingMouseEvent();
     }
-
-
+    
     private void OnDisable()
     {
         var navigateAction = _actionMap.FindAction("Navigate");
@@ -157,5 +178,10 @@ public class InputForMenuNavigation : MonoBehaviour
         // var clickAction = _actionMap.FindAction("Click");
         // clickAction.performed -= PerformClick;
         // clickAction.Disable();
+    }
+    
+    public void OnDestroy()
+    {
+        InputSystem.onDeviceChange -= DeviceChange;
     }
 }

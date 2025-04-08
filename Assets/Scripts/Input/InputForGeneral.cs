@@ -15,17 +15,16 @@ public class InputForGeneral : MonoBehaviour
         
     private void DeviceChange(InputDevice device, InputDeviceChange change)
     {
-        
-        if (change == InputDeviceChange.Added)
-        {
-//            SubscribeToEvents();
-            Debug.Log("Device Connected: " + device);
-        }
-        else if (change == InputDeviceChange.Removed)
-        {
-//            UnsubscribeToEvents();
-            Debug.Log("Device Disconnected: " + device);
-        }
+//         if (change == InputDeviceChange.Added)
+//         {
+// //            SubscribeToEvents();
+//             Debug.Log("Device Connected: " + device);
+//         }
+//         else if (change == InputDeviceChange.Removed)
+//         {
+// //            UnsubscribeToEvents();
+//             Debug.Log("Device Disconnected: " + device);
+//         }
     }
     
     private void SetupGeneralInput()

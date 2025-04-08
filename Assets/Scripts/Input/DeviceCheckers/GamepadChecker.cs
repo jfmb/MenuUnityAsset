@@ -12,8 +12,21 @@ public class GamepadChecker : MonoBehaviour
     void Awake()
     {
         _gamepad = InputSystem.GetDevice<Gamepad>();
+        InputSystem.onDeviceChange += DeviceChange;
     }
 
+    private void DeviceChange(InputDevice device, InputDeviceChange change)
+    {
+        
+        if (change == InputDeviceChange.Added)
+        {
+            SendIsUsingGamepadEvent();
+        }
+        else if (change == InputDeviceChange.Removed)
+        {
+//            UnsubscribeToEvents();
+        }
+    }
         
     public bool IsGamepadTouched()
     {
@@ -30,8 +43,13 @@ public class GamepadChecker : MonoBehaviour
                 _gamepad.startButton.wasPressedThisFrame ||
                 _gamepad.selectButton.wasPressedThisFrame);
     }
-    public void SendIsUsingMouseEvent()
+    public void SendIsUsingGamepadEvent()
     {
         ServiceLocator.GetService<EventQueue>().EnqueueEvent(isusingGamepadEventId, EventArgs.Empty);
+    }
+
+    public void OnDestroy()
+    {
+        InputSystem.onDeviceChange -= DeviceChange;
     }
 }

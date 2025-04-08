@@ -33,7 +33,6 @@ public class UIMenuNavigator : MonoBehaviour
         _isUsingKeyboardOrGamepadAlready = false;
     }
     
-
     public void InjectMenuElements(List<GameObject> newMenuElements)
     {
         _allMenuElements = newMenuElements;
