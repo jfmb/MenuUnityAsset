@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.UI;
 
 public class UIMenuConfigurator : MonoBehaviour
 {
@@ -15,19 +16,23 @@ public class UIMenuConfigurator : MonoBehaviour
     private List<GameObject> _allMenuElements = new();
     public List<GameObject> AllMenuElements => _allMenuElements;
 
+    private Navigation _nav = new();
     public void Setup()
     {
         Assert.IsNotNull(MenuSo, "menuSO can't be null");
 
+        _nav.mode = Navigation.Mode.Explicit;
+        
         Debug.Log("Setup up in Menu Configurator in object " + name);
         BuildSubOptions();
         
         BuildOptions();
-    }
 
+        BuildNavigation();
+    }
+    
     private void BuildSubOptions()
     {
-        var index = 0;
         foreach (var subOption in MenuSo.AllSubOptions)
         {
             var newSubOption = Instantiate(elementSubOption, root);
@@ -49,5 +54,37 @@ public class UIMenuConfigurator : MonoBehaviour
             newOption.GetComponent<UIMenuElement>().IsSubOption = false;
             AllMenuElements.Add(newOption);
         }
+    }
+
+
+    private void BuildNavigation()
+    {
+        BuildNavigationForTheFirstElement();
+        
+        for (var i = 1; i < AllMenuElements.Count-1; i++)
+        {
+            _nav.selectOnUp = AllMenuElements[i - 1].GetComponent<UIMenuElement>().SelectableInElement;
+            _nav.selectOnDown = AllMenuElements[i + 1].GetComponent<UIMenuElement>().SelectableInElement;
+
+            AllMenuElements[i].GetComponent<UIMenuElement>().SelectableInElement.navigation = _nav;
+        }
+
+        BuildNavigationForTheLastElement();
+    }
+
+    private void BuildNavigationForTheFirstElement()
+    {
+        _nav.selectOnUp = AllMenuElements[AllMenuElements.Count - 1].GetComponent<UIMenuElement>().SelectableInElement;
+        _nav.selectOnDown = AllMenuElements[1].GetComponent<UIMenuElement>().SelectableInElement;
+
+        AllMenuElements[0].GetComponent<UIMenuElement>().SelectableInElement.navigation = _nav;
+    }
+
+    private void BuildNavigationForTheLastElement()
+    {
+        _nav.selectOnUp = AllMenuElements[AllMenuElements.Count - 2].GetComponent<UIMenuElement>().SelectableInElement;
+        _nav.selectOnDown = AllMenuElements[0].GetComponent<UIMenuElement>().SelectableInElement;
+        
+        AllMenuElements[AllMenuElements.Count - 1].GetComponent<UIMenuElement>().SelectableInElement.navigation = _nav;
     }
 }
