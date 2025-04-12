@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff7f513de22875440972208ed86f113c, type: 3}
-  m_Name: IsUsingKeyboardEventId
+  m_Script: {fileID: 11500000, guid: 9eeaf0a5d2bdd344696ce901d1185267, type: 3}
+  m_Name: IsGamePadConnectedBooleanEventSO
   m_EditorClassIdentifier: 
-  id: IsUsingKeyboardEventId
+  id: {fileID: 11400000, guid: 46a78268ba6ddb24eb4c91dae93aa4df, type: 2}

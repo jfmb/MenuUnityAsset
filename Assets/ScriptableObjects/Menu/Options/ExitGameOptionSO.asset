@@ -15,3 +15,4 @@ MonoBehaviour:
   optionId: {fileID: 11400000, guid: 157cbf84b4abf7645a2d4cc1f26a2c23, type: 2}
   eventId: {fileID: 11400000, guid: d89fb3a21def9f2408f7a651f6ec71d5, type: 2}
   text: Exit Game
+  icon: {fileID: 3285044355099347766, guid: 900a479b4a4446b43827d79ff012ce6d, type: 3}

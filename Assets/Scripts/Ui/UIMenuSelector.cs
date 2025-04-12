@@ -9,19 +9,24 @@ public class UIMenuSelector : MonoBehaviour
     [SerializeField] private List<UIMenuConfigurator> menus;
     [SerializeField] private MenuId mainMenu;
     [SerializeField] private EventId menuToEnableEventId;
+    [SerializeField] private EventId gameStartsEventId;
     
     private readonly Dictionary<string, UIMenuConfigurator> _allMenus = new ();
     
     private string _currentMenuIdEnabled;
 
     private UIMenuNavigator _uiCurrentMenuNavigator;
-    
+
     void Start()
     {
         _uiCurrentMenuNavigator = GetComponent<UIMenuNavigator>();
         
         var menuToEnableEvent = (StringEvent) ServiceLocator.GetService<EventQueue>().GetEventWithEventId(menuToEnableEventId);
         menuToEnableEvent.StringEventSender += OnNewMenuEnableEvent;
+
+        var gameStartsEvent =
+            (SimpleEvent)ServiceLocator.GetService<EventQueue>().GetEventWithEventId(gameStartsEventId);
+        gameStartsEvent.SimpleEventSender += OnNewGameStartsEvent;
         
         foreach (var menu in menus)
         {
@@ -35,15 +40,20 @@ public class UIMenuSelector : MonoBehaviour
         EnableNewMenuWith(mainMenu.Id);
     }
 
+    private void OnNewGameStartsEvent()
+    {
+        DisableCurrentMenu();
+    }
+
     private void OnNewMenuEnableEvent(object source, StringEventData args)
     {
+        DisableCurrentMenu();
         if (string.IsNullOrEmpty(args.Value))
         {
             Debug.Log("MenuId is null or empty");
             return;
         }
 
-        DisableCurrentMenu();
         EnableNewMenuWith(args.Value);
     }
 
@@ -74,5 +84,10 @@ public class UIMenuSelector : MonoBehaviour
     {
         var menuToEnableEvent = (StringEvent) ServiceLocator.GetService<EventQueue>().GetEventWithEventId(menuToEnableEventId);
         menuToEnableEvent.StringEventSender -= OnNewMenuEnableEvent;
+        
+        var gameStartsEvent =
+            (SimpleEvent)ServiceLocator.GetService<EventQueue>().GetEventWithEventId(gameStartsEventId);
+        gameStartsEvent.SimpleEventSender -= OnNewGameStartsEvent;
+
     }
 }

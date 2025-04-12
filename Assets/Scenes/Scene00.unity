@@ -149,10 +149,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nextSceneEventId: {fileID: 11400000, guid: 569fdff4ddde6f74faf6daf48fb6a7d7, type: 2}
-  nextSceneId: {fileID: 11400000, guid: 6e8ca4279a92d6e41877f24bb83ba095, type: 2}
+  nextScene: 1
   eventQueueInstaller: {fileID: 1700594640}
   eventsInstaller: {fileID: 1761582226}
-  deletePlayerPrefsBefore: 0
 --- !u!4 &1003690710
 Transform:
   m_ObjectHideFlags: 0
@@ -256,15 +255,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eventsToInstall:
-  - {fileID: 11400000, guid: 7c75b3ee938e77743beae8e48b250c2e, type: 2}
+  - {fileID: 11400000, guid: 53cf312eda9ae1f47a8f1bdeed355b69, type: 2}
   - {fileID: 11400000, guid: 201855df554fa05468b2436645f95833, type: 2}
   - {fileID: 11400000, guid: 6002c4ff47b586f4383a25ca226e5c21, type: 2}
   - {fileID: 11400000, guid: 40d8dd39e18566e438213acb6a53dea4, type: 2}
   - {fileID: 11400000, guid: f272b98f4de271542a357eec438cdf80, type: 2}
-  - {fileID: 11400000, guid: f80644441680c8a46af577096ca7cc23, type: 2}
+  - {fileID: 11400000, guid: 23c498625afedbd42aba9b7a5c8482ce, type: 2}
   - {fileID: 11400000, guid: 41d9fa7fcd941f54fa093822c8c07871, type: 2}
   - {fileID: 11400000, guid: acb4628bed6aed24e92e7588b732d5cf, type: 2}
   - {fileID: 11400000, guid: cd1e66ffc0e86cf409718d45bf549680, type: 2}
+  - {fileID: 11400000, guid: 6e70ecf244d2bb44f9ab7b1c77ad1374, type: 2}
+  - {fileID: 11400000, guid: 28196ded551a0f64f8caf57c59721614, type: 2}
 --- !u!4 &1761582227
 Transform:
   m_ObjectHideFlags: 0

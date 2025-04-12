@@ -15,3 +15,4 @@ MonoBehaviour:
   optionId: {fileID: 11400000, guid: 5127a003131f0c94fb2c48d0a69208fe, type: 2}
   eventId: {fileID: 11400000, guid: d89fb3a21def9f2408f7a651f6ec71d5, type: 2}
   text: Settings
+  icon: {fileID: 3761127365919034165, guid: 16de5b864faa86c4d9ebdb8e7a3eabf2, type: 3}

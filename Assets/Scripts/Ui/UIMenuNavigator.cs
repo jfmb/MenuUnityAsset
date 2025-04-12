@@ -3,12 +3,12 @@ using Services.EventQueue;
 using Services.EventQueue.Events.ScriptableObjects;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
-
 
 public class UIMenuNavigator : MonoBehaviour
 {
     [SerializeField] private EventId usingMouseEventId;
+    [SerializeField] private EventId usingKeyboardEventId;
+    [SerializeField] private EventId usingGamepadEventId;
 
     [SerializeField] private UIMenuHorizontalNavigator uiHorizontalNavigator;
     
@@ -19,15 +19,10 @@ public class UIMenuNavigator : MonoBehaviour
     private bool _isUsingMouse;
     private bool _isUsingKeyboard;
 
-    private bool _isUsingGampad;
+    private bool _isUsingGamepad;
 
     private bool _isUsingKeyboardOrGamepadAlready;
     
-    [SerializeField] private EventId isUsingKeyboardEventId;
-    [SerializeField] private EventId isUsingMouseEventId;
-    [SerializeField] private EventId isUsingGamepadEventId;
-
-
     public void Setup()
     {
         _isUsingKeyboardOrGamepadAlready = false;
@@ -42,21 +37,14 @@ public class UIMenuNavigator : MonoBehaviour
 
     private void Start()
     {
-        var isUsingKeyboardEvent = (SimpleEvent) ServiceLocator.GetService<EventQueue>().GetEventWithEventId(isUsingKeyboardEventId);
+        var isUsingKeyboardEvent = (SimpleEvent) ServiceLocator.GetService<EventQueue>().GetEventWithEventId(usingKeyboardEventId);
         isUsingKeyboardEvent.SimpleEventSender += OnNewIsUsingKeyboardEvent;
         
-        var isUsingMouseEvent = (SimpleEvent) ServiceLocator.GetService<EventQueue>().GetEventWithEventId(isUsingMouseEventId);
+        var isUsingMouseEvent = (SimpleEvent) ServiceLocator.GetService<EventQueue>().GetEventWithEventId(usingMouseEventId);
         isUsingMouseEvent.SimpleEventSender += OnNewIsUsingMouseEvent;
         
-        var isUsingGamepadEvent = (SimpleEvent) ServiceLocator.GetService<EventQueue>().GetEventWithEventId(isUsingGamepadEventId);
+        var isUsingGamepadEvent = (SimpleEvent) ServiceLocator.GetService<EventQueue>().GetEventWithEventId(usingGamepadEventId);
         isUsingGamepadEvent.SimpleEventSender += OnNewIsUsingGamepadEvent;
-    }
-
-    private void OnNewIsUsingGamepadEvent()
-    {
-        _isUsingGampad = true;
-        _isUsingKeyboard = false;
-        _isUsingMouse = false;
     }
 
     private void OnNewIsUsingMouseEvent()
@@ -64,32 +52,81 @@ public class UIMenuNavigator : MonoBehaviour
         Debug.Log("Mouse is in use...");
         _isUsingMouse = true;
         _isUsingKeyboard = false;
-        _isUsingGampad = false;
+        _isUsingGamepad = false;
         
         _isUsingKeyboardOrGamepadAlready = false;
+        
+        Cursor.visible = true;
+        EventSystem.current.firstSelectedGameObject = null;
+        EventSystem.current.SetSelectedGameObject(null);
+        uiMessage.TextToShow = "Mouse";
     }
 
     private void OnNewIsUsingKeyboardEvent()
-    { 
+    {         
+        Debug.Log("Keyboard is in use...");
         _isUsingMouse = false;
         _isUsingKeyboard = true;
-        _isUsingGampad = false;
+        _isUsingGamepad = false;
+        
+        SetAllMenuElementsNormal();
+
+        Cursor.visible = false;
+        
+        EventSystem.current.firstSelectedGameObject = null;
+        EventSystem.current.SetSelectedGameObject(null);
+        uiMessage.TextToShow = "Keyboard";
+        PointToFirstElement();
+    }
+
+    private void SetAllMenuElementsNormal()
+    {
+        foreach (var element in _allMenuElements)
+        {
+            EventSystem.current.SetSelectedGameObject(element);
+
+            var isPointerOverCurrentElement = EventSystem.current.IsPointerOverGameObject();
+            if (!isPointerOverCurrentElement)
+            {
+                continue;
+            }
+            
+            var pointer = new PointerEventData(EventSystem.current);
+            var currentSelectable = element.GetComponent<UIMenuElement>().SelectableInElement;
+            currentSelectable.OnPointerExit(pointer);
+        }
+    }
+    
+    private void OnNewIsUsingGamepadEvent()
+    {
+        Debug.Log("Gamepad is in use...");
+        _isUsingGamepad = true;
+        _isUsingKeyboard = false;
+        _isUsingMouse = false;
+        
+        SetAllMenuElementsNormal();
+        
+        Cursor.visible = false;
+        
+        EventSystem.current.firstSelectedGameObject = null;
+        EventSystem.current.SetSelectedGameObject(null);
+        uiMessage.TextToShow = "Gamepad";
+        PointToFirstElement();
     }
 
     public void PointToFirstElement()
     {
         if (_isUsingMouse)
         {
-//            Debug.Log("No point to first element, is using mouse");
+            Debug.Log("No point to first element, is using mouse");
             return;
         }
-
-        if (_isUsingKeyboardOrGamepadAlready)
-        {
-//            Debug.Log("Keyboard or gamepad is in use already");
-            return;
-        }
-        
+        //
+        // if (_isUsingKeyboardOrGamepadAlready)
+        // {
+        //     return;
+        // }
+        //
         if (_allMenuElements.Count == 0)
         {
             Debug.Log("No elements to point to");
@@ -104,76 +141,66 @@ public class UIMenuNavigator : MonoBehaviour
     
     private void Update()
     {
-        CheckKeyboard();
-        
-        CheckMouse();
-        
-        CheckGamepad();
+        // CheckKeyboard();
+        //
+        // CheckMouse();
+        //
+        // CheckGamepad();
         
         CheckIfCurrentObjectIsSubOption();
     }
+    //
+    // private void CheckKeyboard()
+    // {
+    //     if (!_isUsingKeyboard)
+    //     {
+    //         return;
+    //     }
+    //     //
+    //     // Cursor.visible = false;
+    //     // EventSystem.current.SetSelectedGameObject(null);
+    //     uiMessage.TextToShow = "Keyboard";
+    //     
+    //     PointToFirstElement();
+    // }
+    //
+    // private void CheckMouse()
+    // {
+    //     if (!_isUsingMouse)
+    //     {
+    //         return;
+    //     }
+    //     
+    //     EventSystem.current.SetSelectedGameObject(null);
+    //     uiMessage.TextToShow = "Mouse";
+    // }
+    //
+    //
+    // private void CheckGamepad()
+    // {
+    //     if (!_isUsingGampad)
+    //     {
+    //         return;
+    //     }
+    //     
+    //     uiMessage.TextToShow = "Gamepad";
+    //
+    //     PointToFirstElement();
+    // }
 
     private void CheckIfCurrentObjectIsSubOption()
     {
         uiHorizontalNavigator.CheckIfCurrentObjectIsSubOption();
     }
-
-    private void CheckKeyboard()
-    {
-        if (!_isUsingKeyboard)
-        {
-            return;
-        }
-        
-        // _isUsingMouse = false;
-        
-        uiMessage.TextToShow = "Keyboard";
-        
-        PointToFirstElement();
-    }
-    
-    private void CheckMouse()
-    {
-        if (!_isUsingMouse)
-        {
-            return;
-        }
-        
-        EventSystem.current.SetSelectedGameObject(null);
-        uiMessage.TextToShow = "Mouse";
-        
-        // _isUsingKeyboard = false;
-        // _isUsingKeyboardAlready = false;
-//        _isUsingMouse = true;
-    }
-
-    // private bool IsPlayerUsingMouse()
-    // {
-    //     return _currentMousePosition != _lastMousePosition;
-    // }
-    
-    private void CheckGamepad()
-    {
-        if (!_isUsingGampad)
-        {
-            return;
-        }
-        _isUsingMouse = false;
-        
-        uiMessage.TextToShow = "Gamepad";
-
-        PointToFirstElement();
-    }
-
     private void OnDestroy()
     {
-        var isUsingKeyboardEvent = (SimpleEvent) ServiceLocator.GetService<EventQueue>().GetEventWithEventId(isUsingKeyboardEventId);
+        var isUsingKeyboardEvent = (SimpleEvent) ServiceLocator.GetService<EventQueue>().GetEventWithEventId(usingKeyboardEventId);
         isUsingKeyboardEvent.SimpleEventSender -= OnNewIsUsingKeyboardEvent;
         
-        var isUsingMouseEvent = (SimpleEvent) ServiceLocator.GetService<EventQueue>().GetEventWithEventId(isUsingMouseEventId);
+        var isUsingMouseEvent = (SimpleEvent) ServiceLocator.GetService<EventQueue>().GetEventWithEventId(usingMouseEventId);
         isUsingMouseEvent.SimpleEventSender -= OnNewIsUsingMouseEvent;
         
-        var isUsingGamepadEvent = (SimpleEvent) ServiceLocator.GetService<EventQueue>().GetEventWithEventId(isUsingGamepadEventId);
+        var isUsingGamepadEvent = (SimpleEvent) ServiceLocator.GetService<EventQueue>().GetEventWithEventId(usingGamepadEventId);
         isUsingGamepadEvent.SimpleEventSender -= OnNewIsUsingGamepadEvent;
     }
 }

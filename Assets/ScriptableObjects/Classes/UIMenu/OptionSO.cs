@@ -11,11 +11,14 @@ namespace ScriptableObjects
         [SerializeField] private MenuOptionId optionId;
         [SerializeField] private EventId eventId;
         [SerializeField] private string text;
+        [SerializeField] private Sprite icon;
 
         public string Text => text;
 
         public EventId EventId => eventId;
 
         public MenuOptionId OptionId => optionId;
+
+        public Sprite Icon => icon;
     }
 }
