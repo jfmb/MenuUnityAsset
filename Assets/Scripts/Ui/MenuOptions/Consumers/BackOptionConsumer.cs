@@ -12,14 +12,14 @@ namespace Ui.MenuOptions.Consumers
         [SerializeField] private MenuId menuOptionToEnableId;
         [SerializeField] private EventId menuOptionToEnableEventId;
         [SerializeField] private EventId settingsInGameClosedEventId;
-
+        [SerializeField] private bool isSettingsInGameMenu;
         public override void Execute()
         {
             var args = new StringEventData(menuOptionToEnableId.Id);
 
             ServiceLocator.GetService<EventQueue>().EnqueueEvent(menuOptionToEnableEventId, args);
 
-            if (settingsInGameClosedEventId)
+            if (isSettingsInGameMenu)
             {
                 ServiceLocator.GetService<EventQueue>().EnqueueEvent(settingsInGameClosedEventId, EventArgs.Empty);
             }
