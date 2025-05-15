@@ -1,4 +1,3 @@
-using System;
 using ScriptableObjects.Ids;
 using Services.EventQueue;
 using Services.EventQueue.Events.ScriptableObjects;
@@ -9,9 +8,9 @@ using UnityEngine.Serialization;
 public class InputForGeneral : MonoBehaviour
 {
     [SerializeField] private EventId gameStartsEventId;
+    [SerializeField] private EventId gameContinuesEventId;
     [SerializeField] private InputActionAsset inputActions;
-    [SerializeField] private EventId settingsInGameClosedEventId;
-    [SerializeField] private GameObject mainMenuInputListener;
+    [SerializeField] private GameObject uiMenuInputListener;
     [SerializeField] private GameObject playerInputListener;
     [SerializeField] private EventId menuToEnableEventId;
     [SerializeField] private MenuId menuToEnableId;
@@ -20,6 +19,8 @@ public class InputForGeneral : MonoBehaviour
 
     private bool _areSettingsEnabled;
 
+    private bool _isGameStarted;
+
     private void OnEnable()
     {
         InputSystem.onDeviceChange += DeviceChange;
@@ -27,33 +28,43 @@ public class InputForGeneral : MonoBehaviour
 
     private void Start()
     {
-        SetupGeneralInput();
-        
-        mainMenuInputListener.SetActive(true);
+        uiMenuInputListener.SetActive(true);
         playerInputListener.SetActive(false);
 
         var gameStartsEvent = (SimpleEvent) ServiceLocator.GetService<EventQueue>().GetEventWithEventId(gameStartsEventId);
         gameStartsEvent.SimpleEventSender += OnNewGameStartsEvent;
 
-        var settingsInGameClosedEvent =
-            (SimpleEvent)ServiceLocator.GetService<EventQueue>().GetEventWithEventId(settingsInGameClosedEventId);
-        settingsInGameClosedEvent.SimpleEventSender += OnNewSettingsInGameClosedEvent;
+        var gameContinuesEvent =
+            (SimpleEvent)ServiceLocator.GetService<EventQueue>().GetEventWithEventId(gameContinuesEventId);
+        gameContinuesEvent.SimpleEventSender += OnNewGameContinuesEvent;
     }
 
-    private void OnNewSettingsInGameClosedEvent()
+    private void OnNewGameContinuesEvent()
     {
-        OpenOrCloseSettings();
+        playerInputListener.SetActive(true);
+        uiMenuInputListener.SetActive(false);
     }
 
     private void OnNewGameStartsEvent()
     {
         SetupGeneralInput();
+
         playerInputListener.SetActive(true);
-        mainMenuInputListener.SetActive(false);
-        
+        uiMenuInputListener.SetActive(false);
+
+        _isGameStarted = true;
         Debug.Log("Game starts!!!!");
     }
+    
+    private void SetupGeneralInput()
+    {
+        var generalActionMap = inputActions.FindActionMap("General");
+        var navigateAction = generalActionMap.FindAction("Settings");
 
+        navigateAction.performed += PerformSettings;
+
+        navigateAction.Enable();
+    }
 
     private void DeviceChange(InputDevice device, InputDeviceChange change)
     {
@@ -69,36 +80,56 @@ public class InputForGeneral : MonoBehaviour
 //         }
     }
     
-    private void SetupGeneralInput()
-    {
-        var generalActionMap = inputActions.FindActionMap("General");
-        var navigateAction = generalActionMap.FindAction("Settings");
 
-        navigateAction.performed += PerformSettings;
-
-        navigateAction.Enable();
-    }
     private void PerformSettings(InputAction.CallbackContext obj)
     {
-        OpenOrCloseSettings();
+        if (!_isGameStarted)
+        {
+            return;
+        }
+        OpenMenuInGame();
     }
 
-    private void OpenOrCloseSettings()
+    private void OpenMenuInGame()
     {
-        mainMenuInputListener.SetActive(!mainMenuInputListener.activeSelf);
-        playerInputListener.SetActive(!playerInputListener.activeSelf);
+        // mainMenuInputListener.SetActive(!mainMenuInputListener.activeSelf);
+        // playerInputListener.SetActive(!playerInputListener.activeSelf);
 
-        if (mainMenuInputListener.activeSelf)
+        if (IsUIAlreadyActive())
         {
-            var args = new StringEventData(menuToEnableId.Id);
-            ServiceLocator.GetService<EventQueue>().EnqueueEvent(menuToEnableEventId, args);
+            return;
         }
-        else
-        {
-            var args = new StringEventData("");
-            ServiceLocator.GetService<EventQueue>().EnqueueEvent(menuToEnableEventId, args);
-        }
+        
+        uiMenuInputListener.SetActive(true);
+        playerInputListener.SetActive(false);
 
+        SendEventToEnableMenuInGame();
+        // if (mainMenuInputListener.activeSelf)
+        // {
+        //     SendEventToEnableMenuInGame();
+        // }
+        // else
+        // {
+        //     SendEventToDisableMainMenu();
+        // }
+    }
+
+    private bool IsUIAlreadyActive()
+    {
+        return uiMenuInputListener.activeSelf;
+    }
+    
+    private void SendEventToEnableMenuInGame()
+    {
+        var args = new StringEventData(menuToEnableId.Id);
+        Debug.Log("My Debug: sending menu to enable event id: " + menuToEnableId.Id);
+        ServiceLocator.GetService<EventQueue>().EnqueueEvent(menuToEnableEventId, args);
+    }
+
+    private void SendEventToDisableMainMenu()
+    {
+        // var args = new StringEventData("");
+        // ServiceLocator.GetService<EventQueue>().EnqueueEvent(menuToEnableEventId, args);
     }
     
     private void OnDisable()
@@ -117,5 +148,9 @@ public class InputForGeneral : MonoBehaviour
     {
         var gameStartsEvent = (SimpleEvent) ServiceLocator.GetService<EventQueue>().GetEventWithEventId(gameStartsEventId);
         gameStartsEvent.SimpleEventSender -= OnNewGameStartsEvent;
+
+        var gameContinuesEvent =
+            (SimpleEvent)ServiceLocator.GetService<EventQueue>().GetEventWithEventId(gameContinuesEventId);
+        gameContinuesEvent.SimpleEventSender -= OnNewGameContinuesEvent;
     }
 }
