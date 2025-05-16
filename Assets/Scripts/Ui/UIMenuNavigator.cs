@@ -17,16 +17,6 @@ public class UIMenuNavigator : MonoBehaviour
     private List<GameObject> _allMenuElements = new();
 
     private bool _isUsingMouse;
-    private bool _isUsingKeyboard;
-
-    private bool _isUsingGamepad;
-
-    private bool _isUsingKeyboardOrGamepadAlready;
-    
-    public void Setup()
-    {
-        _isUsingKeyboardOrGamepadAlready = false;
-    }
     
     public void InjectMenuElements(List<GameObject> newMenuElements)
     {
@@ -51,10 +41,6 @@ public class UIMenuNavigator : MonoBehaviour
     {
         Debug.Log("Mouse is in use...");
         _isUsingMouse = true;
-        _isUsingKeyboard = false;
-        _isUsingGamepad = false;
-        
-        _isUsingKeyboardOrGamepadAlready = false;
         
         Cursor.visible = true;
         EventSystem.current.firstSelectedGameObject = null;
@@ -66,9 +52,7 @@ public class UIMenuNavigator : MonoBehaviour
     {         
         Debug.Log("Keyboard is in use...");
         _isUsingMouse = false;
-        _isUsingKeyboard = true;
-        _isUsingGamepad = false;
-        
+
         SetAllMenuElementsNormal();
 
         Cursor.visible = false;
@@ -100,8 +84,7 @@ public class UIMenuNavigator : MonoBehaviour
     private void OnNewIsUsingGamepadEvent()
     {
         Debug.Log("Gamepad is in use...");
-        _isUsingGamepad = true;
-        _isUsingKeyboard = false;
+
         _isUsingMouse = false;
         
         SetAllMenuElementsNormal();
@@ -127,8 +110,7 @@ public class UIMenuNavigator : MonoBehaviour
             Debug.Log("No elements to point to");
             return;
         }
-
-        _isUsingKeyboardOrGamepadAlready = true;
+        
         Debug.Log(("Pointing first element..."));
         EventSystem.current.firstSelectedGameObject = _allMenuElements[0];
         EventSystem.current.SetSelectedGameObject(_allMenuElements[0]);
@@ -136,52 +118,8 @@ public class UIMenuNavigator : MonoBehaviour
     
     private void Update()
     {
-        // CheckKeyboard();
-        //
-        // CheckMouse();
-        //
-        // CheckGamepad();
-        
         CheckIfCurrentObjectIsSubOption();
     }
-    //
-    // private void CheckKeyboard()
-    // {
-    //     if (!_isUsingKeyboard)
-    //     {
-    //         return;
-    //     }
-    //     //
-    //     // Cursor.visible = false;
-    //     // EventSystem.current.SetSelectedGameObject(null);
-    //     uiMessage.TextToShow = "Keyboard";
-    //     
-    //     PointToFirstElement();
-    // }
-    //
-    // private void CheckMouse()
-    // {
-    //     if (!_isUsingMouse)
-    //     {
-    //         return;
-    //     }
-    //     
-    //     EventSystem.current.SetSelectedGameObject(null);
-    //     uiMessage.TextToShow = "Mouse";
-    // }
-    //
-    //
-    // private void CheckGamepad()
-    // {
-    //     if (!_isUsingGampad)
-    //     {
-    //         return;
-    //     }
-    //     
-    //     uiMessage.TextToShow = "Gamepad";
-    //
-    //     PointToFirstElement();
-    // }
 
     private void CheckIfCurrentObjectIsSubOption()
     {

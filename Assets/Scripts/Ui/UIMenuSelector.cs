@@ -86,8 +86,6 @@ public class UIMenuSelector : MonoBehaviour
         
         _allMenus[id].gameObject.SetActive(true);
 
-        _uiCurrentMenuNavigator.Setup();
-
         foreach (var element in _allMenus[id].AllMenuElements)
         {
             Debug.Log("Element: " + element.name);
