@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7eaa7e4e50bb442b9928155828e9c6dc, type: 3}
-  m_Name: SettingsInGameMenuOptionId
+  m_Script: {fileID: 11500000, guid: 334665c0dae57e24c9cfef860b4f0f94, type: 3}
+  m_Name: StartButtonPressedInMenuSimpleEventSO
   m_EditorClassIdentifier: 
-  id: SettingsInGameMenuOptionId
+  id: {fileID: 11400000, guid: 9953dd2b40033554cb029d6d2cdf3bf1, type: 2}

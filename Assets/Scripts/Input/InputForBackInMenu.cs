@@ -1,5 +1,4 @@
 using System;
-using ScriptableObjects.Classes.Ids;
 using Services.EventQueue;
 using Services.EventQueue.Events.ScriptableObjects;
 using UnityEngine;
@@ -13,11 +12,9 @@ public class InputForBackInMenu : MonoBehaviour
     [SerializeField] private EventId gameStartsEventId;
     
     [SerializeField] private EventId backInMenuEventId;
-    // [SerializeField] private MenuOptionId backInMainMenuOptionId;
-    // [SerializeField] private MenuOptionId backInSettingsMenuOptionId;
-
 
     private bool _isGameStarted;
+    
     private void OnEnable()
     {
         var actionMap = inputActions.FindActionMap("UI");
@@ -32,15 +29,6 @@ public class InputForBackInMenu : MonoBehaviour
 
     private void OnCancelActionPerformed(InputAction.CallbackContext obj)
     {
-        // var args = new StringEventData(backInSettingsMenuOptionId.Id);
-        //
-        // if (!_isGameStarted)
-        // {
-        //     args = new StringEventData(backInMainMenuOptionId.Id);
-        // }
-        //
-        // ServiceLocator.GetService<EventQueue>().EnqueueEvent(menuOptionEventId, args);
-        
         Debug.Log("Sending Back event from " + gameObject.name);
         ServiceLocator.GetService<EventQueue>().EnqueueEvent(backInMenuEventId, EventArgs.Empty);
     }

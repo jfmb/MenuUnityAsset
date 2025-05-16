@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using ScriptableObjects.Ids;
 using Services.EventQueue;
 using Services.EventQueue.Events.ScriptableObjects;
+using Unity.Android.Gradle.Manifest;
 using UnityEngine;
 
 public class UIMenuSelector : MonoBehaviour
@@ -13,6 +14,7 @@ public class UIMenuSelector : MonoBehaviour
     [SerializeField] private EventId gameStartsEventId;
     [SerializeField] private EventId gameContinuesEventId;
     [SerializeField] private EventId backInMenuEventId;
+    [SerializeField] private EventId startButtonPressedMenuInGameId;
     
     private readonly Dictionary<string, UIMenuConfigurator> _allMenus = new ();
 
@@ -40,6 +42,10 @@ public class UIMenuSelector : MonoBehaviour
         var backInMenuEvent =
             (SimpleEvent)ServiceLocator.GetService<EventQueue>().GetEventWithEventId(backInMenuEventId);
         backInMenuEvent.SimpleEventSender += OnNewBackInMenuEvent;
+
+        var startButtonPressedMenuInGameEvent = (SimpleEvent)ServiceLocator.GetService<EventQueue>()
+            .GetEventWithEventId(startButtonPressedMenuInGameId);
+        startButtonPressedMenuInGameEvent.SimpleEventSender += OnNewStartPressedMenuInGame;
         
         foreach (var menu in menus)
         {
@@ -51,15 +57,32 @@ public class UIMenuSelector : MonoBehaviour
         }
         
         _stackOfMenus.Push(mainMenu.Id);
-        Debug.Log("Menus in stack: " + _stackOfMenus.Count);
+//        Debug.Log("Menus in stack: " + _stackOfMenus.Count);
 
         EnableNewMenuWith(mainMenu.Id);
     }
 
+    private void OnNewStartPressedMenuInGame()
+    {
+        if (!_isGameStarted)
+        {
+            return;
+        }
+
+        if (_stackOfMenus.Count != 1)
+        {
+            return;
+        }
         
+        RemoveMenuAndGoToGame();
+        ServiceLocator.GetService<EventQueue>().EnqueueEvent(gameContinuesEventId, EventArgs.Empty);
+//            Debug.Log("Menus in stack: " + _stackOfMenus.Count);
+    }
+
+
     private void EnableNewMenuWith(string id)
     {
-       Debug.Log("Menu to enable id: " + id);
+//       Debug.Log("Menu to enable id: " + id);
         
         _allMenus[id].gameObject.SetActive(true);
 
@@ -86,7 +109,7 @@ public class UIMenuSelector : MonoBehaviour
         
         var id = args.Value;
         _stackOfMenus.Push(id);
-        Debug.Log("Menus in stack: " + _stackOfMenus.Count);
+//        Debug.Log("Menus in stack: " + _stackOfMenus.Count);
 
         EnableNewMenuWith(id);
     }
@@ -116,7 +139,7 @@ public class UIMenuSelector : MonoBehaviour
         {
             RemoveMenuAndGoToGame();
             ServiceLocator.GetService<EventQueue>().EnqueueEvent(gameContinuesEventId, EventArgs.Empty);
-            Debug.Log("Menus in stack: " + _stackOfMenus.Count);
+//            Debug.Log("Menus in stack: " + _stackOfMenus.Count);
             return;
         }
         
@@ -132,23 +155,16 @@ public class UIMenuSelector : MonoBehaviour
             return;
         }
 
-        // if (_stackOfMenus.Count == 1)
-        // {
-        //     //TODO: send continue game
-        // }
-        //
         var currentMenuId = _stackOfMenus.Pop();
-        Debug.Log("Menus in stack: " + _stackOfMenus.Count);
+//        Debug.Log("Menus in stack: " + _stackOfMenus.Count);
 
         _allMenus[currentMenuId].gameObject.SetActive(false);
-        Debug.Log("Menu to disable id: " + currentMenuId);
+//        Debug.Log("Menu to disable id: " + currentMenuId);
     }
 
     private void RemoveMenuAndGoToGame()
     {
         RemoveCurrentMenu();
-
-//        _stackOfMenus.Clear();
     }
 
     private void OnNewGameStartsEvent()
@@ -179,6 +195,10 @@ public class UIMenuSelector : MonoBehaviour
         var backInMenuEvent =
             (SimpleEvent)ServiceLocator.GetService<EventQueue>().GetEventWithEventId(backInMenuEventId);
         backInMenuEvent.SimpleEventSender -= OnNewBackInMenuEvent;
-
+        
+        
+        var startButtonPressedMenuInGameEvent = (SimpleEvent)ServiceLocator.GetService<EventQueue>()
+            .GetEventWithEventId(startButtonPressedMenuInGameId);
+        startButtonPressedMenuInGameEvent.SimpleEventSender -= OnNewStartPressedMenuInGame;
     }
 }

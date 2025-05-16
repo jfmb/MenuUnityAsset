@@ -121,12 +121,7 @@ public class UIMenuNavigator : MonoBehaviour
             Debug.Log("No point to first element, is using mouse");
             return;
         }
-        //
-        // if (_isUsingKeyboardOrGamepadAlready)
-        // {
-        //     return;
-        // }
-        //
+        
         if (_allMenuElements.Count == 0)
         {
             Debug.Log("No elements to point to");
