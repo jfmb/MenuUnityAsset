@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4d90db536a2e4dd0b18348a8f96003fe, type: 3}
-  m_Name: SettingsInGameMenuSO
+  m_Name: MenuInGameSO
   m_EditorClassIdentifier: 
-  menuId: {fileID: 11400000, guid: 7516f7f722a447b43a33fe6053bca225, type: 2}
-  allSubOptions:
-  - {fileID: 11400000, guid: 76a2e8b4704c86d47a3e489a55c6fee0, type: 2}
-  - {fileID: 11400000, guid: ff70c066510501e469e82775722ecc6a, type: 2}
+  menuId: {fileID: 11400000, guid: d067784fe34ce8a43b6d22171dc79c41, type: 2}
+  allSubOptions: []
   allOptions:
-  - {fileID: 11400000, guid: 58066135f0335fa43bc266143caa4a59, type: 2}
+  - {fileID: 11400000, guid: 280df78ac0d608a4aa4a18e62502d125, type: 2}
+  - {fileID: 11400000, guid: 7fbc810864c742c498490b22ec02e521, type: 2}
+  - {fileID: 11400000, guid: ad612df92cc9bd04f816d70f35c90028, type: 2}

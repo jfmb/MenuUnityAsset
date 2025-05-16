@@ -1,6 +1,5 @@
 using Services.EventQueue;
 using Services.EventQueue.Events.ScriptableObjects;
-using Unity.Android.Gradle.Manifest;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,13 +12,13 @@ public class InputForPlayerTest : MonoBehaviour
 
     private void Start()
     {
-        actionMap = inputActions.FindActionMap("Player");
-
-        var navigateAction = actionMap.FindAction("Move");
-
-        navigateAction.performed += PerformNavigation;
-
-        navigateAction.Enable();
+        // actionMap = inputActions.FindActionMap("Player");
+        //
+        // var navigateAction = actionMap.FindAction("Move");
+        //
+        // navigateAction.performed += PerformNavigation;
+        //
+        // navigateAction.Enable();
     }
 
 
@@ -42,9 +41,9 @@ public class InputForPlayerTest : MonoBehaviour
 
     private void OnDisable()
     {
-        var navigateAction = actionMap.FindAction("Move");
-
-        navigateAction.performed -= PerformNavigation;
-        navigateAction.Disable();
+        // var navigateAction = actionMap.FindAction("Move");
+        //
+        // navigateAction.performed -= PerformNavigation;
+        // navigateAction.Disable();
     }
 }

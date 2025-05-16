@@ -17,7 +17,7 @@ public class InputForMenuNavigation : MonoBehaviour
     [SerializeField] private KeyboardDetector keyboardDetector;
     [SerializeField] private MouseDetector mouseDetector;
     [SerializeField] private GamepadDetector gampepadDetector;
-
+    
     private InputActionMap _actionMap;
     private bool _joystickCanBeUsed = true;
 
@@ -26,8 +26,8 @@ public class InputForMenuNavigation : MonoBehaviour
     private bool _isAlreadyUsingGamepad;
 
     private bool _isGamepadConnected;
-    
-    private void Start()
+
+    private void OnEnable()
     {
         _actionMap = inputActions.FindActionMap("UI");
 
@@ -36,11 +36,15 @@ public class InputForMenuNavigation : MonoBehaviour
         var navigateActionMap = _actionMap.FindAction("Navigate");
         navigateActionMap.performed += PerformHorizontalNavigation;
         navigateActionMap.Enable();
+    }
 
+    private void Start()
+    {
         var isGamepadConnectedEvent =
             (BooleanEvent)ServiceLocator.GetService<EventQueue>().GetEventWithEventId(isGamepadConnectedId);
         isGamepadConnectedEvent.BooleanEventSender += OnNewIsGamePadConnectedEvent;
     }
+
 
     private void OnNewIsGamePadConnectedEvent(object source, BooleanEventData args)
     {
@@ -102,6 +106,7 @@ public class InputForMenuNavigation : MonoBehaviour
         StartCoroutine(WaitToBeAbleToUseJoystickAgain());
     }
 
+    
     private void Update()
     {
         CheckKeyboard();

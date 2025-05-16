@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 86c4bc326ded488e947500a74f97f14f, type: 3}
-  m_Name: BackOptionInSettingsMenuInGameSO
+  m_Name: ContinueGameOptionSO
   m_EditorClassIdentifier: 
-  optionId: {fileID: 11400000, guid: d5b25b0fda0a56743a34c3acf969966f, type: 2}
+  optionId: {fileID: 11400000, guid: 07b064bd2d6dd3e4884d0eb6b32a69f8, type: 2}
   eventId: {fileID: 11400000, guid: d89fb3a21def9f2408f7a651f6ec71d5, type: 2}
-  text: Back
-  icon: {fileID: 0}
+  text: Continue
+  icon: {fileID: -7568643229156510592, guid: e01809987cc36674f9fa1bbe81357045, type: 3}
