@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Services.EventQueue;
 using Services.EventQueue.Events.ScriptableObjects;
@@ -10,6 +9,7 @@ public class UIEventListener : MonoBehaviour
     [SerializeField] private EventId menuOptionEventId;
 
     private Dictionary<string, MenuOption> _allMenuOptions = new ();
+    
     void Start()
     {
         var menuOptions = transform.GetComponentsInChildren<MenuOption>();

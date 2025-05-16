@@ -12,12 +12,12 @@ public class InputForMenuNavigation : MonoBehaviour
     
     [SerializeField] private EventId uiLeftEventId;
     [SerializeField] private EventId uiRightEventId;
-    [SerializeField] private EventId usingMouseEventId;
+    [SerializeField] private EventId isGamepadConnectedId;
 
-    [SerializeField] private KeyboardChecker keyboardChecker;
-    [SerializeField] private MouseChecker mouseChecker;
-    [SerializeField] private GamepadChecker gampepadChecker;
-
+    [SerializeField] private KeyboardDetector keyboardDetector;
+    [SerializeField] private MouseDetector mouseDetector;
+    [SerializeField] private GamepadDetector gampepadDetector;
+    
     private InputActionMap _actionMap;
     private bool _joystickCanBeUsed = true;
 
@@ -25,32 +25,41 @@ public class InputForMenuNavigation : MonoBehaviour
     private bool _isAlreadyUsingKeyboard;
     private bool _isAlreadyUsingGamepad;
 
-    private void Awake()
+    private bool _isGamepadConnected;
+
+    private void OnEnable()
     {
-        InputSystem.onDeviceChange += DeviceChange;
+        _actionMap = inputActions.FindActionMap("UI");
+
+        _isGamepadConnected = gampepadDetector.IsGamepadConnected();
+
+        var navigateActionMap = _actionMap.FindAction("Navigate");
+        navigateActionMap.performed += PerformHorizontalNavigation;
+        navigateActionMap.Enable();
     }
 
     private void Start()
     {
-        _actionMap = inputActions.FindActionMap("UI");
-
-        var navigateActionMap = _actionMap.FindAction("Navigate");
-        navigateActionMap.performed += PerformNavigation;
-        navigateActionMap.Enable();
+        var isGamepadConnectedEvent =
+            (BooleanEvent)ServiceLocator.GetService<EventQueue>().GetEventWithEventId(isGamepadConnectedId);
+        isGamepadConnectedEvent.BooleanEventSender += OnNewIsGamePadConnectedEvent;
     }
 
-    
-    private void DeviceChange(InputDevice device, InputDeviceChange change)
+
+    private void OnNewIsGamePadConnectedEvent(object source, BooleanEventData args)
     {
-        if (device is not Gamepad || change != InputDeviceChange.Added)
+        _isGamepadConnected = args.Value;
+
+        if (!_isGamepadConnected)
         {
+            _isAlreadyUsingGamepad = false;
             return;
         }
-        DoThingsWhenGamepadIsWorking();
-        Debug.Log("Device Connected: " + device);
+        
+        DoThingsWhenIsUsingGamepad();
     }
-    
-    private void PerformNavigation(InputAction.CallbackContext ctx)
+
+    private void PerformHorizontalNavigation(InputAction.CallbackContext ctx)
     {
         var direction = ctx.ReadValue<Vector2>();
         
@@ -97,6 +106,7 @@ public class InputForMenuNavigation : MonoBehaviour
         StartCoroutine(WaitToBeAbleToUseJoystickAgain());
     }
 
+    
     private void Update()
     {
         CheckKeyboard();
@@ -106,12 +116,16 @@ public class InputForMenuNavigation : MonoBehaviour
 
     private void CheckMouse()
     {
-        if (!mouseChecker.IsUsingMouse())
+        if (!mouseDetector.IsUsingMouse())
         {
             return;
         }
 
-        Cursor.visible = true;
+        DoThingsWhenIsUsingMouse();
+    }
+
+    private void DoThingsWhenIsUsingMouse()
+    {
         _isAlreadyUsingKeyboard = false;
         _isAlreadyUsingGamepad = false;
         
@@ -120,44 +134,55 @@ public class InputForMenuNavigation : MonoBehaviour
             return;
         }
 
+        Debug.Log("Mouse is detected and is not already in use");
+        
         _isAlreadyUsingMouse = true;
-        mouseChecker.SendIsUsingMouseEvent();
+        mouseDetector.SendIsUsingMouseEvent();
     }
 
     private void CheckKeyboard()
     {
-        if (!keyboardChecker.IsUsingKeyboard())
+        if (!keyboardDetector.IsUsingKeyboard())
         {
             return;
         }
+
+        DoThingsWhenIsUsingKeyboard();
+    }
+
+    private void DoThingsWhenIsUsingKeyboard()
+    {
         _isAlreadyUsingMouse = false;
         _isAlreadyUsingGamepad = false;
-        Cursor.visible = false;
 
         if (_isAlreadyUsingKeyboard)
         {
             return;
         }
-        _isAlreadyUsingKeyboard = true;
         
-        keyboardChecker.SendIsUsingKeyboardEvent();
+        Debug.Log("Keyboard is detected and is not already in use");
+
+        _isAlreadyUsingKeyboard = true;
+        keyboardDetector.SendIsUsingKeyboardEvent();
     }
 
     private void CheckGamepad()
     {
-        if (!gampepadChecker.IsGamepadTouched())
+        if (!_isGamepadConnected)
+        {
+            return;
+        }
+        
+        if (!gampepadDetector.IsGamepadTouched())
         {
             return;
         }
 
-        DoThingsWhenGamepadIsWorking();
-        gampepadChecker.SendIsUsingGamepadEvent();
+        DoThingsWhenIsUsingGamepad();
     }
 
-    private void DoThingsWhenGamepadIsWorking()
+    private void DoThingsWhenIsUsingGamepad()
     {
-        Cursor.visible = false;
-
         _isAlreadyUsingMouse = false;
         _isAlreadyUsingKeyboard = false;
         
@@ -165,23 +190,23 @@ public class InputForMenuNavigation : MonoBehaviour
         {
             return;
         }
-        
+
         _isAlreadyUsingGamepad = true;
+        gampepadDetector.SendIsUsingGamepadEvent();
     }
     
     private void OnDisable()
-    {
+    {        
+        _actionMap = inputActions.FindActionMap("UI");
         var navigateAction = _actionMap.FindAction("Navigate");
-        navigateAction.performed -= PerformNavigation;
+        navigateAction.performed -= PerformHorizontalNavigation;
         navigateAction.Disable();
-        
-        // var clickAction = _actionMap.FindAction("Click");
-        // clickAction.performed -= PerformClick;
-        // clickAction.Disable();
     }
     
     public void OnDestroy()
     {
-        InputSystem.onDeviceChange -= DeviceChange;
+        var isGamepadConnectedEvent =
+            (BooleanEvent)ServiceLocator.GetService<EventQueue>().GetEventWithEventId(isGamepadConnectedId);
+        isGamepadConnectedEvent.BooleanEventSender -= OnNewIsGamePadConnectedEvent;
     }
 }

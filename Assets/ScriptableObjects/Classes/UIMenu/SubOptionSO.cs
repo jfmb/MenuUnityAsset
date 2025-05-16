@@ -6,6 +6,7 @@ public class SubOptionSO : ScriptableObject
 {
     [SerializeField] private MenuSubOptionId subOptionId;
     [SerializeField] private string title;
+    [SerializeField] private Sprite icon;
     [SerializeField] private List<string> allValues;
     [SerializeField] private int defaultValueIndex;
 
@@ -16,4 +17,6 @@ public class SubOptionSO : ScriptableObject
     public List<string> AllValues => allValues;
 
     public int DefaultValueIndex => defaultValueIndex;
+
+    public Sprite Icon => icon;
 }
