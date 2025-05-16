@@ -721,7 +721,7 @@ Transform:
   m_Children:
   - {fileID: 4747151564632844780}
   - {fileID: 7571601064642456999}
-  m_Father: {fileID: 5446273623953773540}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1201098393471647162
 Transform:
@@ -1997,7 +1997,6 @@ Transform:
   m_Children:
   - {fileID: 308575526779677766}
   - {fileID: 8286460457568311089}
-  - {fileID: 1001805169456902694}
   - {fileID: 1201098393471647162}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3067,5 +3066,6 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 519420032}
+  - {fileID: 1001805169456902694}
   - {fileID: 5446273623953773540}
   - {fileID: 1349303393}

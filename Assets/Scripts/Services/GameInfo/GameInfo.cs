@@ -1,16 +1,9 @@
-using UnityEngine;
-
-public class GameInfo : MonoBehaviour
+public class GameInfo
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private GameStatus _gameStatus = new();
+    private GameSettings _gameSettings = new();
+    public void SetGameIsStartedWith(bool newValue)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+        _gameStatus.IsGameStarted = newValue;
+    }    
 }

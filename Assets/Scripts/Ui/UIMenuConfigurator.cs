@@ -45,7 +45,6 @@ public class UIMenuConfigurator : MonoBehaviour
 
     private void BuildOptions()
     {
-        var index = 0;
         foreach (var option in MenuSo.AllOptions)
         {
             var newOption = Instantiate(buttonOption, root);

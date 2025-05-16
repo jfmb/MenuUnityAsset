@@ -27,7 +27,9 @@ namespace Services
         {
             InstallDeviceAdapters();
             InstallLanguages();
-//            InstallAppInfo();
+
+            InstallGameInfo();
+
             InstallEventQueue();
             StartNextScene();
 
@@ -45,41 +47,38 @@ namespace Services
             // ServiceLocator.RegisterService(languagesInstaller);
         }
 
-        private void InstallAppInfo()
-        {            
-            // var appInfo = new AppInfo.AppInfo
-            // {
-            //     // MIM-64 use current App version
-            //     BuildNumber = Application.version
-            // };
-            // ServiceLocator.RegisterService(appInfo);
+        private void InstallGameInfo()
+        {
+            var gameInfo = new GameInfo();
+
+            ServiceLocator.RegisterService(gameInfo);
             
-            ReadSettingsJsonFile();
+//            ReadSettingsJsonFile();
         }
 
-        private void ReadSettingsJsonFile()
-        {
-            var deviceFilePath = Path.Combine(ObtainTheDeviceFilesPath(), "settings.json");
-            var jsonContent = string.Empty;
+        // private void ReadSettingsJsonFile()
+        // {
+        //     var deviceFilePath = Path.Combine(ObtainTheDeviceFilesPath(), "settings.json");
+        //     var jsonContent = string.Empty;
+        //
+        //     // MIM-67: if no settings.json file is found, the app uses the productive settings included in the build
+        //     if(!File.Exists(deviceFilePath)) 
+        //     {
+        //         jsonContent = Resources.Load<TextAsset>("settings-production").text;
+        //     }
+        //     else
+        //     {
+        //         jsonContent = File.ReadAllText(deviceFilePath);
+        //     }
+        //
+        //     Settings settings = JsonUtility.FromJson<Settings>(jsonContent);
+        // }
 
-            // MIM-67: if no settings.json file is found, the app uses the productive settings included in the build
-            if(!File.Exists(deviceFilePath)) 
-            {
-                jsonContent = Resources.Load<TextAsset>("settings-production").text;
-            }
-            else
-            {
-                jsonContent = File.ReadAllText(deviceFilePath);
-            }
-
-            Settings settings = JsonUtility.FromJson<Settings>(jsonContent);
-        }
-
-        private static string ObtainTheDeviceFilesPath()
-        {
-            return SystemInfo.deviceType == DeviceType.Desktop ? 
-                Application.streamingAssetsPath : Application.persistentDataPath;
-        }
+        // private static string ObtainTheDeviceFilesPath()
+        // {
+        //     return SystemInfo.deviceType == DeviceType.Desktop ? 
+        //         Application.streamingAssetsPath : Application.persistentDataPath;
+        // }
 
         private void InstallEventQueue()
         {
