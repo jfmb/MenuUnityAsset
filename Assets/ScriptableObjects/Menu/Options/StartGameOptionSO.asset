@@ -15,3 +15,4 @@ MonoBehaviour:
   optionId: {fileID: 11400000, guid: 61e041340bd985f458fe6b6741916719, type: 2}
   eventId: {fileID: 11400000, guid: d89fb3a21def9f2408f7a651f6ec71d5, type: 2}
   text: New game
+  icon: {fileID: -7568643229156510592, guid: e01809987cc36674f9fa1bbe81357045, type: 3}

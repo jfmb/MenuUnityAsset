@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a1b9c896d6ae6a4a892f34ca5f7aaa7, type: 3}
   m_Name: DificultySubOptionSO
   m_EditorClassIdentifier: 
-  subOptionId: {fileID: 0}
+  subOptionId: {fileID: 11400000, guid: 683a202238838ac45be2c75eab448795, type: 2}
   title: Dificulty
   allValues:
   - Easy

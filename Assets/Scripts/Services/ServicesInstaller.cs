@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
+using DefaultNamespace;
 using ScriptableObjects.Scripts.Ids;
+using Services.EventQueue.Classes.EventData;
 using Services.EventQueue.Events.ScriptableObjects;
 using UnityEngine;
 
@@ -17,14 +19,12 @@ namespace Services
     public class ServicesInstaller : MonoBehaviour
     {
         [SerializeField] private EventId nextSceneEventId;
-        [SerializeField] private SceneId nextSceneId;
+        [SerializeField] private AllScenes nextScene;
         [SerializeField] private EventQueueInstaller eventQueueInstaller;
         [SerializeField] private EventsInstaller eventsInstaller;
-        [SerializeField] private bool deletePlayerPrefsBefore;
 
         private void Awake()
         {
-            ResetPlayerPrefs();
             InstallDeviceAdapters();
             InstallLanguages();
 //            InstallAppInfo();
@@ -32,16 +32,6 @@ namespace Services
             StartNextScene();
 
             Debug.Log("Debug: services installed");
-        }
-
-        private void ResetPlayerPrefs()
-        {
-            if (!deletePlayerPrefsBefore)
-            {
-                return;
-            }
-        
-            PlayerPrefs.DeleteAll();
         }
 
         private void InstallDeviceAdapters()
@@ -99,7 +89,7 @@ namespace Services
         
         private void StartNextScene()
         {
-            var args = new StringEventData(nextSceneId.Id);
+            var args = new IntegerEventData((int)nextScene);
             Debug.Log("before enqueue");
             ServiceLocator.GetService<EventQueue.EventQueue>().EnqueueEvent(nextSceneEventId, args);
         }

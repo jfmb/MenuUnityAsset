@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: SettingsMenuSO
   m_EditorClassIdentifier: 
   menuId: {fileID: 11400000, guid: 932a697b76109bf4eb7a26be6e2d4944, type: 2}
-  allOptions:
-  - {fileID: 11400000, guid: 58066135f0335fa43bc266143caa4a59, type: 2}
   allSubOptions:
   - {fileID: 11400000, guid: 76a2e8b4704c86d47a3e489a55c6fee0, type: 2}
+  - {fileID: 11400000, guid: ff70c066510501e469e82775722ecc6a, type: 2}
+  allOptions:
+  - {fileID: 11400000, guid: 58066135f0335fa43bc266143caa4a59, type: 2}

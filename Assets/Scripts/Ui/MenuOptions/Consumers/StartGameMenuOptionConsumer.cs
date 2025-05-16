@@ -1,5 +1,4 @@
 ﻿using System;
-using ScriptableObjects.Scripts.Ids;
 using Services.EventQueue;
 using Services.EventQueue.Events.ScriptableObjects;
 using Ui.MenuOptions.Interfaces;
@@ -9,18 +8,16 @@ namespace Ui.MenuOptions.Consumers
 {
     public class StartGameMenuOptionConsumer : MenuOption
     {
-        [SerializeField] private EventId loadSceneEventId;
-        [SerializeField] private SceneId nextSceneId;
+        [SerializeField] private EventId gameStartsEventId;
         
         public override void Execute()
         {
-            StartNextScene();
+            StartGame();
         }
         
-        private void StartNextScene()
+        private void StartGame()
         {
-            var args = new StringEventData(nextSceneId.Id);
-            ServiceLocator.GetService<EventQueue>().EnqueueEvent(loadSceneEventId, args);
+            ServiceLocator.GetService<EventQueue>().EnqueueEvent(gameStartsEventId, EventArgs.Empty);
         }
     }
 }

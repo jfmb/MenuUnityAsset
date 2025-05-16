@@ -8,8 +8,8 @@ namespace ScriptableObjects
     public class MenuSO : ScriptableObject
     {
         [SerializeField] private MenuId menuId;
-        [SerializeField] private List<OptionSO> allOptions;
         [SerializeField] private List<SubOptionSO> allSubOptions;
+        [SerializeField] private List<OptionSO> allOptions;
 
         public MenuId Id => menuId;
         public List<OptionSO> AllOptions => allOptions;
