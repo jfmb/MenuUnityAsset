@@ -1,7 +1,6 @@
 using System.Collections.Generic;
-using UnityEngine;
 
-public class GameSettings : MonoBehaviour
+public class GameSettings
 {
     private Dictionary<string, string> _settings = new();
 }

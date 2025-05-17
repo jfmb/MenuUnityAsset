@@ -1,6 +1,6 @@
 public class GameStatus
 {
-    private bool _isGamePaused;
-
     public bool IsGameStarted { get; set; }
+
+    public bool IsGamePaused { get; set; }
 }

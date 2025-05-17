@@ -1,11 +1,11 @@
 using Services.EventQueue;
 using UnityEngine;
 
-public class EventQueueInstaller : MonoBehaviour
+public class EventQueueInstaller : GameService
 {
     [SerializeField] private EventQueue eventQueue;
 
-    public void Install()
+    public override void Install()
     {
         DontDestroyOnLoad(eventQueue.gameObject);
         ServiceLocator.RegisterService(eventQueue);

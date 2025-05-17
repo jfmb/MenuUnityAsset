@@ -17,7 +17,7 @@ namespace Ui.MenuOptions.Consumers
         
         private void StartGame()
         {
-            ServiceLocator.GetService<GameInfo>().SetGameIsStartedWith(true);
+            ServiceLocator.GetService<GameInfoFacade>().SetGameIsStartedWith(true);
             
             ServiceLocator.GetService<EventQueue>().EnqueueEvent(gameStartsEventId, EventArgs.Empty);
         }

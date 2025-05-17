@@ -1,18 +1,7 @@
-﻿using System;
-using System.IO;
-using DefaultNamespace;
-using ScriptableObjects.Scripts.Ids;
+﻿using DefaultNamespace;
 using Services.EventQueue.Classes.EventData;
 using Services.EventQueue.Events.ScriptableObjects;
 using UnityEngine;
-
-[Serializable]
-public class Settings
-{
-    public string Context;
-    public string KeycloakBaseURL;
-    public string ServerURL;
-}
 
 namespace Services
 {
@@ -22,18 +11,31 @@ namespace Services
         [SerializeField] private AllScenes nextScene;
         [SerializeField] private EventQueueInstaller eventQueueInstaller;
         [SerializeField] private EventsInstaller eventsInstaller;
-
+        [SerializeField] private GameService[] servicesToInstall;
+        
         private void Awake()
         {
             InstallDeviceAdapters();
             InstallLanguages();
 
-            InstallGameInfo();
+//            InstallGameInfo();
 
-            InstallEventQueue();
+            InstallGameServiceGameObjects();
+            
+  //          InstallEventQueue();
             StartNextScene();
 
-            Debug.Log("Debug: services installed");
+            Debug.Log("My Debug: services installed");
+        }
+
+        private void InstallGameServiceGameObjects()
+        {
+            foreach (var newService in servicesToInstall)
+            {
+                newService.Install();
+            }
+            
+            Debug.Log("My Debug: GameService GameObjects installed");
         }
 
         private void InstallDeviceAdapters()
@@ -46,16 +48,7 @@ namespace Services
             // languagesInstaller.Install();
             // ServiceLocator.RegisterService(languagesInstaller);
         }
-
-        private void InstallGameInfo()
-        {
-            var gameInfo = new GameInfo();
-
-            ServiceLocator.RegisterService(gameInfo);
-            
-//            ReadSettingsJsonFile();
-        }
-
+        
         // private void ReadSettingsJsonFile()
         // {
         //     var deviceFilePath = Path.Combine(ObtainTheDeviceFilesPath(), "settings.json");
@@ -79,12 +72,6 @@ namespace Services
         //     return SystemInfo.deviceType == DeviceType.Desktop ? 
         //         Application.streamingAssetsPath : Application.persistentDataPath;
         // }
-
-        private void InstallEventQueue()
-        {
-            eventQueueInstaller.Install();
-            eventsInstaller.Install();
-        }
         
         private void StartNextScene()
         {

@@ -1,13 +1,12 @@
-
 using Services.EventQueue;
 using Services.EventQueue.Events.ScriptableObjects;
 using UnityEngine;
 
-public class EventsInstaller : MonoBehaviour
+public class EventsInstaller : GameService
 {
     [SerializeField] private EventSO[] eventsToInstall;
 
-    public void Install()
+    public override void Install()
     {
         foreach (var newEvent in eventsToInstall)
         {
