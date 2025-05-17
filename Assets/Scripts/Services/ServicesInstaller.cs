@@ -15,6 +15,7 @@ namespace Services
         
         private void Awake()
         {
+            InstalPermanentDataSaver();
             InstallDeviceAdapters();
             InstallLanguages();
 
@@ -26,6 +27,12 @@ namespace Services
             StartNextScene();
 
             Debug.Log("My Debug: services installed");
+        }
+
+        private void InstalPermanentDataSaver()
+        {
+            var playerPrefsPermanentDataAdapter = new PlayerPrefsPermanentDataAdapter();
+            ServiceLocator.RegisterService<IPermanentData>(playerPrefsPermanentDataAdapter);
         }
 
         private void InstallGameServiceGameObjects()

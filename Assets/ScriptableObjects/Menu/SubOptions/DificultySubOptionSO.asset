@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   subOptionId: {fileID: 11400000, guid: 683a202238838ac45be2c75eab448795, type: 2}
   title: Dificulty
+  icon: {fileID: 0}
   allValues:
   - Easy
   - Medium
