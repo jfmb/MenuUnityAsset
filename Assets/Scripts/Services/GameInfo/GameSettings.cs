@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public class GameSettings
 {
@@ -8,6 +9,7 @@ public class GameSettings
     public void SetupSettings(List<SubOptionSO> allSettings)
     {
         FillWithDefaultValue(allSettings);
+        Debug.Log("My Debug: Dictionary filled with default values");
         FillWithPermanentDataSavedValue();
     }
 
@@ -21,6 +23,26 @@ public class GameSettings
 
     private void FillWithPermanentDataSavedValue()
     {
+        
         ServiceLocator.GetService<IPermanentData>().LoadGroupOfData(Settings);
+    }
+
+    public void SaveNewSettingsValueWithKey(string key, int newValue)
+    {
+        if (Settings.ContainsKey(key))
+        {
+            Settings[key] = newValue;
+            SavePermanentValueWithKey(key);        
+            return;
+        }
+        
+        Settings.Add(key, newValue);
+        SavePermanentValueWithKey(key);   
+    }
+    
+    private void SavePermanentValueWithKey(string key)
+    {
+        var value = Settings[key];
+        ServiceLocator.GetService<IPermanentData>().SaveSingleData(key, value);
     }
 }

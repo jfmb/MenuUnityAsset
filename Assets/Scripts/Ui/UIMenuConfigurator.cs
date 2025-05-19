@@ -86,4 +86,17 @@ public class UIMenuConfigurator : MonoBehaviour
         
         AllMenuElements[AllMenuElements.Count - 1].GetComponent<UIMenuElement>().SelectableInElement.navigation = _nav;
     }
+
+    public void SaveCurrentSubOptionsPermanent()
+    {
+        foreach (var element in AllMenuElements)
+        {
+            if (!element.GetComponent<UIMenuElement>().IsSubOption)
+            {
+                return;
+            }
+
+            element.GetComponent<UISubOptionConfigurator>().SaveCurrentValuePermanent();
+        }
+    }
 }

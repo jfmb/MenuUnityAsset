@@ -27,10 +27,26 @@ public class UIMenuHorizontalNavigator : MonoBehaviour
     {
         if (_lastSelectedGameObject && _lastSelectedGameObject.GetComponent<UIMenuElement>().IsSubOption)
         {
+            SaveCurrentSubOptionValueIntoGameSettings();
             UnsubscribeToHorizontalInputEvents();
         }
     }
-    
+
+    private void SaveCurrentSubOptionValueIntoGameSettings()
+    {
+        var currentObject = EventSystem.current.currentSelectedGameObject;
+        if(!currentObject.GetComponent<UIMenuElement>().IsSubOption)
+        {
+            return;
+        }
+        
+        var currentSubOptionId = currentObject.GetComponent<UISubOptionConfigurator>().SubOptionId;
+        var currentSubOptionValue = currentObject.GetComponent<UISubOptionConfigurator>().CurrentValue;
+        ServiceLocator.GetService<GameInfoFacade>().SaveSettingNewValueWithKey(currentSubOptionId, currentSubOptionValue);
+        
+        Debug.Log("My Debug: Setting saved:" + currentSubOptionId + " -> " + currentSubOptionValue);
+    }
+
     public void UnsubscribeToHorizontalInputEvents()
     {
         var uiLeftEvent = (SimpleEvent)ServiceLocator.GetService<EventQueue>().GetEventWithEventId(UILeftEventId);

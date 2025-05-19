@@ -15,24 +15,24 @@ public class GameInfoFacade: GameService
         DontDestroyOnLoad(gameObject);
         ServiceLocator.RegisterService(this);
 
-        var listOfSettings = new List<SubOptionSO>();
-        foreach (var setting in settingsMenuSO.AllSubOptions)
-        {
-            listOfSettings.Add(setting);
-        }
+        var listOfSettings = settingsMenuSO.AllSubOptions;
+
         _gameSettings.SetupSettings(listOfSettings);
     }
 
-    public void SetSettingWithValue(string key, int newValue)
+    public int GetLastSettingsValueSelectedFromKey(string key)
     {
-        var gameSettings = _gameSettings.Settings;
-        if (gameSettings.ContainsKey(key))
+        if (_gameSettings.Settings.ContainsKey(key))
         {
-            gameSettings[key] = newValue;
-            return;
+            return _gameSettings.Settings[key];
         }
-        
-        gameSettings.Add(key, newValue);
+
+        return -1;
+    }
+    
+    public void SaveSettingNewValueWithKey(string key, int newValue)
+    {
+        _gameSettings.SaveNewSettingsValueWithKey(key, newValue);
     }
     
     public void SetGameIsStartedWith(bool newValue)

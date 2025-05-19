@@ -4,6 +4,8 @@ public interface IPermanentData
 {
     public void LoadSingleData(string key);
     public void SaveSingleData(string key, string data);
+    public void SaveSingleData(string key, int data);
+
     public void LoadGroupOfData(Dictionary<string, string> data);
     public void LoadGroupOfData(Dictionary<string, int> data);
 

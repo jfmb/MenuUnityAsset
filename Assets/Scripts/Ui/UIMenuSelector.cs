@@ -165,6 +165,8 @@ public class UIMenuSelector : MonoBehaviour
         var currentMenuId = _stackOfMenus.Pop();
 //        Debug.Log("Menus in stack: " + _stackOfMenus.Count);
 
+        _allMenus[currentMenuId].SaveCurrentSubOptionsPermanent();
+        
         _allMenus[currentMenuId].gameObject.SetActive(false);
 //        Debug.Log("Menu to disable id: " + currentMenuId);
     }
