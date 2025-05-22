@@ -125,15 +125,15 @@ public class UIMenuSelector : MonoBehaviour
     
     private void OnNewBackInMenuEvent()
     {
-        if (!_isGameStarted)
+        if (IsMainMenuEnabled())
         {
-            if (_stackOfMenus.Count == 1)
+            if (IsLastMenuScreen())
             {
                 return;
             }
         }
 
-        if (_stackOfMenus.Count == 1)
+        if (IsLastMenuScreen())
         {
             RemoveMenuAndGoToGame();
             ServiceLocator.GetService<EventQueue>().EnqueueEvent(gameContinuesEventId, EventArgs.Empty);
@@ -145,7 +145,16 @@ public class UIMenuSelector : MonoBehaviour
         var menuId = _stackOfMenus.Peek();
         EnableNewMenuWith(menuId);
     }
-        
+
+    private bool IsMainMenuEnabled()
+    {
+        return _isGameStarted == false;
+    }
+    
+    private bool IsLastMenuScreen()
+    {
+        return _stackOfMenus.Count == 1;
+    }
     private void RemoveCurrentMenu()
     {
         if (_stackOfMenus.Count == 0)
@@ -156,6 +165,8 @@ public class UIMenuSelector : MonoBehaviour
         var currentMenuId = _stackOfMenus.Pop();
 //        Debug.Log("Menus in stack: " + _stackOfMenus.Count);
 
+        _allMenus[currentMenuId].SaveCurrentSubOptionsPermanent();
+        
         _allMenus[currentMenuId].gameObject.SetActive(false);
 //        Debug.Log("Menu to disable id: " + currentMenuId);
     }
@@ -193,7 +204,6 @@ public class UIMenuSelector : MonoBehaviour
         var backInMenuEvent =
             (SimpleEvent)ServiceLocator.GetService<EventQueue>().GetEventWithEventId(backInMenuEventId);
         backInMenuEvent.SimpleEventSender -= OnNewBackInMenuEvent;
-        
         
         var startButtonPressedMenuInGameEvent = (SimpleEvent)ServiceLocator.GetService<EventQueue>()
             .GetEventWithEventId(startButtonPressedMenuInGameId);

@@ -45,7 +45,6 @@ public class UIMenuConfigurator : MonoBehaviour
 
     private void BuildOptions()
     {
-        var index = 0;
         foreach (var option in MenuSo.AllOptions)
         {
             var newOption = Instantiate(buttonOption, root);
@@ -86,5 +85,18 @@ public class UIMenuConfigurator : MonoBehaviour
         _nav.selectOnDown = AllMenuElements[0].GetComponent<UIMenuElement>().SelectableInElement;
         
         AllMenuElements[AllMenuElements.Count - 1].GetComponent<UIMenuElement>().SelectableInElement.navigation = _nav;
+    }
+
+    public void SaveCurrentSubOptionsPermanent()
+    {
+        foreach (var element in AllMenuElements)
+        {
+            if (!element.GetComponent<UIMenuElement>().IsSubOption)
+            {
+                return;
+            }
+
+            element.GetComponent<UISubOptionConfigurator>().SaveCurrentValuePermanent();
+        }
     }
 }

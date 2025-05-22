@@ -8,14 +8,4 @@ public class UIMenuElement : MonoBehaviour
     public Selectable SelectableInElement => selectable;
 
     public bool IsSubOption { get; set; }
-
-    public void SetSelectedElement()
-    {
-    }
-
-    
-    public void DeSelectedElement()
-    {
-//        selectable.targetGraphic.color = selectable.colors.normalColor;
-    }
 }

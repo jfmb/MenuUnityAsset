@@ -33,9 +33,6 @@ public class UIShowMessage : MonoBehaviour
     {
         messagePanel.SetActive(true);
         text.GetComponent<TMP_Text>().text = _textToShow;
-        //
-        // StopCoroutine(DisableMessagePanel());
-        // StartCoroutine(DisableMessagePanel());
     }
 
     private IEnumerator DisableMessagePanel()
