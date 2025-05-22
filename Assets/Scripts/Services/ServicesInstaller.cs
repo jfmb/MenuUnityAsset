@@ -21,7 +21,7 @@ namespace Services
 
 //            InstallGameInfo();
 
-            InstallGameServiceGameObjects();
+            InstallGameServicesFromGameObjects();
             
   //          InstallEventQueue();
             StartNextScene();
@@ -35,14 +35,14 @@ namespace Services
             ServiceLocator.RegisterService<IPermanentData>(playerPrefsPermanentDataAdapter);
         }
 
-        private void InstallGameServiceGameObjects()
+        private void InstallGameServicesFromGameObjects()
         {
             foreach (var newService in servicesToInstall)
             {
                 newService.Install();
             }
             
-            Debug.Log("My Debug: GameService GameObjects installed");
+            Debug.Log("My Debug: GameService GameObjects installed: " + servicesToInstall.Length);
         }
 
         private void InstallDeviceAdapters()
