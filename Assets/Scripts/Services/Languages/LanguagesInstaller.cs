@@ -1,55 +1,75 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using ScriptableObjects.Languages;
 using UnityEngine;
 
 namespace Services.Languages
 {
-    public class LanguagesInstaller : MonoBehaviour
+    public class LanguagesInstaller : GameService
     {
-        [SerializeField] private LanguagesAvailableSO languagesAvailable;
+        [SerializeField] private SubOptionSO languageSettings;
+        [SerializeField] private List<string> languagesAvailable;
         
         private Dictionary<string, CultureInfo> _allLanguagesInstalled = new();
         public Dictionary<string, CultureInfo> AllLanguagesInstalled => _allLanguagesInstalled;
 
-        public void Install()
+        private string _twoLettersCodeForDefaultLanguage;
+        
+        public override void Install()
         {
-            foreach (var element in languagesAvailable.TwoLettersIsoLanguages)
+            languagesAvailable = languageSettings.AllValues;
+
+            for (var i = 0; i < languagesAvailable.Count; i++)
             {
-                var twoLettersName = element.twoLetterValidIsoLanguage;
-                var newCultureInfo = new CultureInfo(twoLettersName);
-                if (!IsTwoLetterIsoLanguageName(twoLettersName))
+                var language = languagesAvailable[i];
+                var twoLettersName = CultureInfo.GetCultureInfoByIetfLanguageTag(language).TwoLetterISOLanguageName;
+                if (!IsTwoLetterNameIsoValid(twoLettersName))
                 {
-                    Debug.LogError(element + " is not a valid language");
+                    Debug.LogError(language + " is not a valid language");
+
+                    if (languageSettings.DefaultValueIndex == i)
+                    {
+                        Debug.LogError(language + " should be de default language but is not a valid language");
+                    }
                     continue;
                 }
-
+                var newCultureInfo = new CultureInfo(twoLettersName);
                 AllLanguagesInstalled.Add(twoLettersName, newCultureInfo);
+                
+                Debug.Log("My Debug: Language installed: " + twoLettersName);
+                
+                if (languageSettings.DefaultValueIndex == i)
+                {
+                    _twoLettersCodeForDefaultLanguage = twoLettersName;
+                }
+                
+                Debug.Log("My debug: default language: " + _twoLettersCodeForDefaultLanguage);
             }
+            // foreach (var language in languagesAvailable)
+            // {
+            //     var twoLettersName = CultureInfo.GetCultureInfoByIetfLanguageTag(language).TwoLetterISOLanguageName;
+            //     if (!IsTwoLetterNameIsoValid(twoLettersName))
+            //     {
+            //         Debug.LogError(language + " is not a valid language");
+            //         continue;
+            //     }
+            //     var newCultureInfo = new CultureInfo(twoLettersName);
+            //
+            //     AllLanguagesInstalled.Add(twoLettersName, newCultureInfo);
+            // }
 
-            if (!IsValidDefaultLanguage())
-            {
-                Debug.LogWarning("Default Language is not included in Languages available");
-            }
-            
             DontDestroyOnLoad(this);
         }
-
-        private bool IsValidDefaultLanguage()
-        {
-            return _allLanguagesInstalled.ContainsKey(languagesAvailable.DefaultLanguage.twoLetterValidIsoLanguage);
-        }
         
-        private bool IsTwoLetterIsoLanguageName(string element)
+        private bool IsTwoLetterNameIsoValid(string language)
         {
             var cultures = CultureInfo.GetCultures(CultureTypes.AllCultures);
-            return cultures.Any(culture => culture.TwoLetterISOLanguageName == element);
+            return cultures.Any(culture => culture.TwoLetterISOLanguageName == language);
         }
 
-        public LanguageSO GetDefaultLanguage()
+        public string GetDefaultLanguage()
         {
-            return languagesAvailable.DefaultLanguage;
+            return _twoLettersCodeForDefaultLanguage;
         }
     }
 }

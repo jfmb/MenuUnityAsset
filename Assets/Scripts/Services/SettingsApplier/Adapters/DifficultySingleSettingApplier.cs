@@ -8,7 +8,7 @@ namespace Services.SettingsApplier.Adapters
         {
             var valueSaved = ServiceLocator.GetService<GameInfoFacade>()
                 .GetLastSettingsValueSelectedFromKey(SettingsId);
-            Debug.Log("My Debug: Difficulty changed to " + valueSaved);
+            Debug.Log("Difficulty changed to " + valueSaved);
         }
     }
 }

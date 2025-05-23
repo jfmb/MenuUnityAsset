@@ -19,14 +19,11 @@ namespace Services
             InstallDeviceAdapters();
             InstallLanguages();
 
-//            InstallGameInfo();
-
             InstallGameServicesFromGameObjects();
             
-  //          InstallEventQueue();
             StartNextScene();
 
-            Debug.Log("My Debug: services installed");
+            Debug.Log("Services installed");
         }
 
         private void InstalPermanentDataSaver()
@@ -41,8 +38,6 @@ namespace Services
             {
                 newService.Install();
             }
-            
-            Debug.Log("My Debug: GameService GameObjects installed: " + servicesToInstall.Length);
         }
 
         private void InstallDeviceAdapters()

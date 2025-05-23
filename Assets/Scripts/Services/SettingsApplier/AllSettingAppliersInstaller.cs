@@ -30,7 +30,7 @@ namespace Services.SettingsApplier
         {
             if (!_allSettings.ContainsKey(key))
             {
-                Debug.Log("My Debug: Settings with key not present in dictionary");
+                Debug.Log("Settings with key not present in dictionary");
                 return;
             }
             
