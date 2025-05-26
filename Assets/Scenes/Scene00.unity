@@ -119,6 +119,52 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &553192798
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 553192800}
+  - component: {fileID: 553192799}
+  m_Layer: 0
+  m_Name: Language
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &553192799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 553192798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ef4bedbc192e604eb4854186a9aa2e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  settingsId: {fileID: 11400000, guid: ac04ad66137718546b8e840315318632, type: 2}
+  languageSubOptionSO: {fileID: 11400000, guid: ff70c066510501e469e82775722ecc6a, type: 2}
+--- !u!4 &553192800
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 553192798}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1891834925}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &588178748
 GameObject:
   m_ObjectHideFlags: 0
@@ -246,9 +292,9 @@ MonoBehaviour:
   servicesToInstall:
   - {fileID: 1700594640}
   - {fileID: 1761582226}
+  - {fileID: 856387255}
   - {fileID: 1153239009}
   - {fileID: 1891834924}
-  - {fileID: 856387255}
 --- !u!4 &1003690710
 Transform:
   m_ObjectHideFlags: 0
@@ -456,6 +502,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   allSingleSettingsAppliers:
   - {fileID: 588178749}
+  - {fileID: 553192799}
 --- !u!4 &1891834925
 Transform:
   m_ObjectHideFlags: 0
@@ -470,6 +517,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 588178750}
+  - {fileID: 553192800}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &7780724548477966377
