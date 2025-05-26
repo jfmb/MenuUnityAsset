@@ -9,6 +9,8 @@ namespace Services.SettingsApplier.Adapters
             var valueSaved = ServiceLocator.GetService<GameInfoFacade>()
                 .GetLastSettingsValueSelectedFromKey(SettingsId);
             Debug.Log("Difficulty changed to " + valueSaved);
+            
+            //TODO: change the game for the new difficulty
         }
     }
 }
