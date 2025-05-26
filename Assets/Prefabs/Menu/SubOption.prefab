@@ -60,6 +60,7 @@ MonoBehaviour:
   title: {fileID: 4300201494062638480}
   value: {fileID: 3600970361090046753}
   icon: {fileID: 2448719141602343921}
+  localizationEventId: {fileID: 11400000, guid: cb6b0fc69013ad54f8ffbfc4a4754c98, type: 2}
 --- !u!114 &1662777747337762633
 MonoBehaviour:
   m_ObjectHideFlags: 0

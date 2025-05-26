@@ -40,8 +40,8 @@ public class UIMenuHorizontalNavigator : MonoBehaviour
             return;
         }
         
-        var currentSubOptionId = currentObject.GetComponent<UISubOptionConfigurator>().SubOptionId;
-        var currentSubOptionValue = currentObject.GetComponent<UISubOptionConfigurator>().CurrentValue;
+        var currentSubOptionId = currentObject.GetComponent<UISubOptionCreator>().SubOptionId;
+        var currentSubOptionValue = currentObject.GetComponent<UISubOptionCreator>().CurrentValue;
         ServiceLocator.GetService<GameInfoFacade>().SaveSettingNewValueWithKey(currentSubOptionId, currentSubOptionValue);
         
         Debug.Log("My Debug: Setting saved:" + currentSubOptionId + " -> " + currentSubOptionValue);
@@ -85,7 +85,7 @@ public class UIMenuHorizontalNavigator : MonoBehaviour
         {
             return;
         }
-        currentObject.GetComponent<UISubOptionConfigurator>().IncreaseValueFromButton();
+        currentObject.GetComponent<UISubOptionCreator>().IncreaseValueFromButton();
     }
 
     private void OnNewUILeftEvent()
@@ -96,7 +96,7 @@ public class UIMenuHorizontalNavigator : MonoBehaviour
             return;
         }
         
-        currentObject.GetComponent<UISubOptionConfigurator>().DecreaseValueFromButton();
+        currentObject.GetComponent<UISubOptionCreator>().DecreaseValueFromButton();
     }
 
     private void OnDestroy()

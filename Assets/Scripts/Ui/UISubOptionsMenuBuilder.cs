@@ -4,7 +4,7 @@ using UnityEngine;
 public class UISubOptionsMenuBuilder : MonoBehaviour
 {
 //    [SerializeField] private List<SubOptionSO> allSubOptionsSo;
-    [SerializeField] private UISubOptionConfigurator subOption;
+    [SerializeField] private UISubOptionCreator subOption;
     
     private void Setup(List<SubOptionSO> allSubOptionsSo)
     {

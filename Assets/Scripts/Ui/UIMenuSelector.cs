@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using ScriptableObjects.Ids;
 using Services.EventQueue;
 using Services.EventQueue.Events.ScriptableObjects;
-using Unity.Android.Gradle.Manifest;
 using UnityEngine;
 
 public class UIMenuSelector : MonoBehaviour

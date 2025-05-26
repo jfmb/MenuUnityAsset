@@ -1,4 +1,13 @@
-key,EN,ES
-language,Language,Idioma
-difficulty,Difficulty,Dificultad
-settings,Settings,Opciones
+key,en,es
+Language,Language,Idioma
+Dificulty,Difficulty,Dificultad
+SettingsMenuOptionId,Settings,Opciones
+BackOptionInMenuId,Back,Volver
+ContinueMenuOptionId,Continue,Continuar
+ExitGameMenuOptionId,Exit,Salir
+StartNewGameMenuOptionId,Start,Empezar
+Spanish,Spanish,español
+English,English,inglés
+Hard,Hard,Difícil
+Medium,Medium,Medio
+Easy,Easy,Fácil

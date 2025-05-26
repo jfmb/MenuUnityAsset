@@ -175,6 +175,7 @@ MonoBehaviour:
   buttonOption: {fileID: 2637584243918804831, guid: 692fc8e1416a89f478f04ceac7e814bb, type: 3}
   elementSubOption: {fileID: 1579052094858410579, guid: 40d0c8267091ea3458bf4daa66024d3f, type: 3}
   root: {fileID: 139664588}
+  localizationEventId: {fileID: 11400000, guid: cb6b0fc69013ad54f8ffbfc4a4754c98, type: 2}
 --- !u!114 &139664590
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -738,6 +739,7 @@ MonoBehaviour:
   buttonOption: {fileID: 2637584243918804831, guid: 692fc8e1416a89f478f04ceac7e814bb, type: 3}
   elementSubOption: {fileID: 1579052094858410579, guid: 40d0c8267091ea3458bf4daa66024d3f, type: 3}
   root: {fileID: 9208035207502076030}
+  localizationEventId: {fileID: 11400000, guid: cb6b0fc69013ad54f8ffbfc4a4754c98, type: 2}
 --- !u!222 &1332926102051445017
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1748,6 +1750,7 @@ MonoBehaviour:
   buttonOption: {fileID: 2637584243918804831, guid: 692fc8e1416a89f478f04ceac7e814bb, type: 3}
   elementSubOption: {fileID: 1579052094858410579, guid: 40d0c8267091ea3458bf4daa66024d3f, type: 3}
   root: {fileID: 8407403948708224208}
+  localizationEventId: {fileID: 11400000, guid: cb6b0fc69013ad54f8ffbfc4a4754c98, type: 2}
 --- !u!114 &4572746084642603201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2180,6 +2183,7 @@ MonoBehaviour:
   gameContinuesEventId: {fileID: 11400000, guid: 927ddc6c7e6cd5e458b0bd83e46e91ff, type: 2}
   backInMenuEventId: {fileID: 11400000, guid: dccb03bfaab8f2249b1a4c86cf3b090a, type: 2}
   startButtonPressedMenuInGameId: {fileID: 11400000, guid: 9953dd2b40033554cb029d6d2cdf3bf1, type: 2}
+  localizationEventId: {fileID: 11400000, guid: cb6b0fc69013ad54f8ffbfc4a4754c98, type: 2}
 --- !u!224 &6546903444596646635
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2667,7 +2671,7 @@ GameObject:
   - component: {fileID: 7916952706995964752}
   - component: {fileID: 5647980506321537638}
   m_Layer: 0
-  m_Name: SettingsOption
+  m_Name: EnableSettingsOption
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -20,35 +20,7 @@ namespace Services.Languages
         public override void Install()
         {
             InstallLocalization();
-            
-//            languagesAvailable = languageSettings.AllValues;
-            for (var i = 0; i < _languagesAvailable.Count; i++)
-            {
-                var language = _languagesAvailable[i];
-                var twoLettersName = CultureInfo.GetCultureInfoByIetfLanguageTag(language).TwoLetterISOLanguageName;
-                if (!IsTwoLetterNameIsoValid(twoLettersName))
-                {
-                    Debug.LogError(language + " is not a valid language");
 
-                    if (languageSettings.DefaultValueIndex == i)
-                    {
-                        Debug.LogError(language + " should be the default language but is not a valid language");
-                    }
-                    continue;
-                }
-                var newCultureInfo = new CultureInfo(twoLettersName);
-                _languagesInGame.Add(twoLettersName, newCultureInfo);
-                
-                Debug.Log("My Debug: Language installed: " + twoLettersName);
-                
-                if (languageSettings.DefaultValueIndex == i)
-                {
-                    _languagesInGame.SetDefaultLanguage(twoLettersName);
-                }
-            }
-
-//            DontDestroyOnLoad(languagesInGame);
-            InstallLanguagesInServiceLocator();
         }
 
         private void InstallLocalization()
@@ -81,9 +53,17 @@ namespace Services.Languages
             var headers = lines[0].Split(',').Skip(1).ToArray();
             _localization.LocalizationData = new Dictionary<string, Dictionary<string, string>>();
 
-            for (var i = 1; i < headers.Length; i++)
+            // foreach (var VARIABLE in headers)
+            // {
+            //     Debug.Log("My debug: header ----> " + VARIABLE);
+            // }
+            
+            for (var i = 0; i < headers.Length; i++)
             {
-                _languagesAvailable.Add(headers[i]);
+                
+                Debug.Log("My debug: language install: " + headers[i].ToLower());
+                var newLanguage = headers[i].ToLower();
+                _languagesAvailable.Add(newLanguage);
             }
             
             foreach (var line in lines.Skip(1))
@@ -94,14 +74,48 @@ namespace Services.Languages
                     var key = fields[0];
                     _localization.LocalizationData[key] = new Dictionary<string, string>();
 
-                    Debug.Log("Language: " + key);
+//                    Debug.Log("---------> Key: " + key);
                     for (int i = 0; i < headers.Length; i++)
                     {
                         _localization.LocalizationData[key][headers[i]] = fields[i + 1];
-                        Debug.Log(_localization.LocalizationData[key][headers[i]] + " - ");
+//                        Debug.Log(_localization.LocalizationData[key][headers[i]] + " - ");
                     }
                 }
             }
+            
+            ServiceLocator.RegisterService(_localization);
+            InstallLanguages();
+        }
+
+        private void InstallLanguages()
+        {
+            for (var i = 0; i < _languagesAvailable.Count; i++)
+            {
+                var language = _languagesAvailable[i];
+                var twoLettersName = CultureInfo.GetCultureInfoByIetfLanguageTag(language).TwoLetterISOLanguageName;
+                if (!IsTwoLetterNameIsoValid(twoLettersName))
+                {
+                    Debug.LogError(language + " is not a valid language");
+
+                    if (languageSettings.DefaultValueIndex == i)
+                    {
+                        Debug.LogError(language + " should be the default language but is not a valid language");
+                    }
+                    continue;
+                }
+                var newCultureInfo = new CultureInfo(twoLettersName);
+                _languagesInGame.Add(twoLettersName, newCultureInfo);
+                
+                Debug.Log("My Debug: Language installed: " + twoLettersName);
+                
+                if (languageSettings.DefaultValueIndex == i)
+                {
+                    _languagesInGame.SetDefaultLanguage(twoLettersName);
+                }
+            }
+
+//            DontDestroyOnLoad(languagesInGame);
+            InstallLanguagesInServiceLocator();
         }
         
         private void InstallLanguagesInServiceLocator()

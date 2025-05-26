@@ -150,6 +150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   settingsId: {fileID: 11400000, guid: ac04ad66137718546b8e840315318632, type: 2}
   languageSubOptionSO: {fileID: 11400000, guid: ff70c066510501e469e82775722ecc6a, type: 2}
+  localizeNowEventId: {fileID: 11400000, guid: cb6b0fc69013ad54f8ffbfc4a4754c98, type: 2}
 --- !u!4 &553192800
 Transform:
   m_ObjectHideFlags: 0
@@ -240,7 +241,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   languageSettings: {fileID: 11400000, guid: ff70c066510501e469e82775722ecc6a, type: 2}
-  languagesAvailable: []
 --- !u!4 &856387256
 Transform:
   m_ObjectHideFlags: 0
@@ -292,9 +292,9 @@ MonoBehaviour:
   servicesToInstall:
   - {fileID: 1700594640}
   - {fileID: 1761582226}
-  - {fileID: 856387255}
   - {fileID: 1153239009}
   - {fileID: 1891834924}
+  languagesInstaller: {fileID: 856387255}
 --- !u!4 &1003690710
 Transform:
   m_ObjectHideFlags: 0
@@ -456,6 +456,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 28196ded551a0f64f8caf57c59721614, type: 2}
   - {fileID: 11400000, guid: 65c4e93d1b8508741b76ab98d6d69698, type: 2}
   - {fileID: 11400000, guid: 11e5776ef865f33458d45a4ea14640b7, type: 2}
+  - {fileID: 11400000, guid: fd6ec0937dba8ca4fa3193f2bae13080, type: 2}
 --- !u!4 &1761582227
 Transform:
   m_ObjectHideFlags: 0
@@ -503,6 +504,7 @@ MonoBehaviour:
   allSingleSettingsAppliers:
   - {fileID: 588178749}
   - {fileID: 553192799}
+  removePreviousSettingsSaved: 0
 --- !u!4 &1891834925
 Transform:
   m_ObjectHideFlags: 0
