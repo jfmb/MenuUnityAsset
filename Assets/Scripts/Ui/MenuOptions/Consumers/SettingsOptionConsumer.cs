@@ -12,7 +12,6 @@ public class SettingsOptionConsumer : MenuOption
     public override void Execute()
     {
         var args = new StringEventData(menuToEnableId.Id);
-        Debug.Log("My Debug: sending menu to enable event id: " + menuToEnableId.Id);
         ServiceLocator.GetService<EventQueue>().EnqueueEvent(menuToEnableEventId, args);
     }
 }

@@ -33,6 +33,15 @@ namespace Services
 
         private void InstallGameServicesFromGameObjects()
         {
+            // languagesInstaller.Install();
+            // Debug.Log("My debug: localization and languages installed!!!");
+            // foreach (var newService in servicesToInstall)
+            // {
+            //     newService.Install();
+            // }
+            //
+            // StartNextScene();
+            //
             StartCoroutine(InstallLanguages());
         }
 
@@ -44,7 +53,7 @@ namespace Services
         private IEnumerator InstallLanguages()
         {
             languagesInstaller.Install();
-            yield return new WaitForSeconds(1f);
+            yield return null;
             Debug.Log("My debug: localization and languages installed!!!");
             foreach (var newService in servicesToInstall)
             {
@@ -85,7 +94,7 @@ namespace Services
         {
             var args = new IntegerEventData((int)nextScene);
             Debug.Log("before enqueue");
-            ServiceLocator.GetService<EventQueue.EventQueue>().EnqueueEvent(nextSceneEventId, args);
+//            ServiceLocator.GetService<EventQueue.EventQueue>().EnqueueEvent(nextSceneEventId, args);
             
             SceneManager.LoadScene(args.Value);
         }

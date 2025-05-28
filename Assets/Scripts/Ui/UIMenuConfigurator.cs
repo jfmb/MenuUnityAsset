@@ -40,7 +40,6 @@ public class UIMenuConfigurator : MonoBehaviour
         BuildOptions();
 
         BuildNavigation();
-        
     }
     
     private void BuildSubOptions()

@@ -17,20 +17,16 @@ public class LanguageSingleSettingApplier : SingleSettingApplier
 
     public override void Apply()
     {
-        var currentTwoCodeLanguage = ServiceLocator.GetService<Languages>().TwoLettersCodeForCurrentLanguage;
-//        var currentCulture = new CultureInfo(currentTwoCodeLanguage);
-        
-        var valueSaved = ServiceLocator.GetService<GameInfoFacade>()
+        var languageIndexSavedInSettings = ServiceLocator.GetService<GameInfoFacade>()
             .GetLastSettingsValueSelectedFromKey(SettingsId);
 
-        var newLanguageName = languageSubOptionSO.AllValueLocalizationKeysLocalizationKeys[valueSaved];
-        Debug.Log("Index: " + valueSaved  +"Native language name: " + newLanguageName);
-        var culture = CultureInfo.GetCultures(CultureTypes.AllCultures)
-            .FirstOrDefault(c => c.EnglishName.ToLower() == newLanguageName.ToLower());
+        var languageNameOfThatIndex = languageSubOptionSO.AllValueLocalizationKeysLocalizationKeys[languageIndexSavedInSettings];
         
-//        var twoCodeLanguage = languageSubOptionSO.AllValues[valueSaved];
+        var culture = CultureInfo.GetCultures(CultureTypes.AllCultures)
+            .FirstOrDefault(c => c.EnglishName.ToLower() == languageNameOfThatIndex.ToLower());
+        
         var newTwoCodeLanguage = culture.TwoLetterISOLanguageName;
-            ServiceLocator.GetService<Languages>().SetCurrentLanguage(newTwoCodeLanguage);
+        ServiceLocator.GetService<Languages>().SetCurrentLanguage(newTwoCodeLanguage);
         
         Debug.Log("Current TwoCodeLanguage loaded in settings: " + newTwoCodeLanguage);
         

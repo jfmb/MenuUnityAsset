@@ -60,7 +60,6 @@ MonoBehaviour:
   title: {fileID: 4300201494062638480}
   value: {fileID: 3600970361090046753}
   icon: {fileID: 2448719141602343921}
-  localizationEventId: {fileID: 11400000, guid: cb6b0fc69013ad54f8ffbfc4a4754c98, type: 2}
 --- !u!114 &1662777747337762633
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -325,7 +324,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -353,7 +352,7 @@ GameObject:
   - component: {fileID: 7559563095813037194}
   - component: {fileID: 2448719141602343921}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -35,6 +35,12 @@ public class UIMenuHorizontalNavigator : MonoBehaviour
     private void SaveCurrentSubOptionValueIntoGameSettings()
     {
         var currentObject = EventSystem.current.currentSelectedGameObject;
+        
+        if (!currentObject)
+        {
+            return;
+        }
+        
         if(!currentObject.GetComponent<UIMenuElement>().IsSubOption)
         {
             return;

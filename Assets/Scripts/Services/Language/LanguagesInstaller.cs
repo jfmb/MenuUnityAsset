@@ -10,13 +10,17 @@ namespace Services.Languages
     public class LanguagesInstaller : GameService
     {
         [SerializeField] private SubOptionSO languageSettings;
-        
+
+        private const string LocalizationFile = "localization.csv";
+
         private List<string> _languagesAvailable = new();
         
         private Languages _languagesInGame = new ();
 
         private Localization _localization = new();        
         
+        
+        private LocalizationDataParser _localizationDataParser = new LocalizationDataParser();
         public override void Install()
         {
             InstallLocalization();
@@ -25,7 +29,7 @@ namespace Services.Languages
 
         private void InstallLocalization()
         {
-            StartCoroutine(LoadLocalizationFile("localization.csv"));
+            StartCoroutine(LoadLocalizationFile(LocalizationFile));
         }
 
         private IEnumerator LoadLocalizationFile(string fileName)
@@ -49,44 +53,26 @@ namespace Services.Languages
         private void ParseLocalizationData(string csvData)
         {
             var lines = csvData.Replace("\r", "").Split('\n');
-
             var headers = lines[0].Split(',').Skip(1).ToArray();
-            _localization.LocalizationData = new Dictionary<string, Dictionary<string, string>>();
+            _localization.LocalizationData = _localizationDataParser.Parse(lines, headers);
 
-            // foreach (var VARIABLE in headers)
-            // {
-            //     Debug.Log("My debug: header ----> " + VARIABLE);
-            // }
+            AddLanguagesAvailable(headers);
             
-            for (var i = 0; i < headers.Length; i++)
-            {
-                
-                Debug.Log("My debug: language install: " + headers[i].ToLower());
-                var newLanguage = headers[i].ToLower();
-                _languagesAvailable.Add(newLanguage);
-            }
-            
-            foreach (var line in lines.Skip(1))
-            {
-                if (!string.IsNullOrEmpty(line))
-                {
-                    var fields = line.Split(',');
-                    var key = fields[0];
-                    _localization.LocalizationData[key] = new Dictionary<string, string>();
-
-//                    Debug.Log("---------> Key: " + key);
-                    for (int i = 0; i < headers.Length; i++)
-                    {
-                        _localization.LocalizationData[key][headers[i]] = fields[i + 1];
-//                        Debug.Log(_localization.LocalizationData[key][headers[i]] + " - ");
-                    }
-                }
-            }
+//            AddLocalizations(lines, headers);
             
             ServiceLocator.RegisterService(_localization);
             InstallLanguages();
         }
 
+        private void AddLanguagesAvailable(string[] headers)
+        {
+            foreach (var field in headers)
+            {
+                var newLanguage = field.ToLower();
+                _languagesAvailable.Add(newLanguage);
+            }
+        }
+        
         private void InstallLanguages()
         {
             for (var i = 0; i < _languagesAvailable.Count; i++)
@@ -103,6 +89,7 @@ namespace Services.Languages
                     }
                     continue;
                 }
+                
                 var newCultureInfo = new CultureInfo(twoLettersName);
                 _languagesInGame.Add(twoLettersName, newCultureInfo);
                 
@@ -114,19 +101,18 @@ namespace Services.Languages
                 }
             }
 
-//            DontDestroyOnLoad(languagesInGame);
             InstallLanguagesInServiceLocator();
         }
         
-        private void InstallLanguagesInServiceLocator()
-        {
-            ServiceLocator.RegisterService(_languagesInGame);
-        }
-
         private bool IsTwoLetterNameIsoValid(string language)
         {
             var cultures = CultureInfo.GetCultures(CultureTypes.AllCultures);
             return cultures.Any(culture => culture.TwoLetterISOLanguageName == language);
+        }
+
+        private void InstallLanguagesInServiceLocator()
+        {
+            ServiceLocator.RegisterService(_languagesInGame);
         }
     }
 }

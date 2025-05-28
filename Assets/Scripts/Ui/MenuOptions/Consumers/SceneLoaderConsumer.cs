@@ -12,23 +12,23 @@ namespace DefaultNamespace.Services.Consumers
     {
         [SerializeField] private EventId sceneLoaderEventId;
 
-        // private void Start()
-        // {
-        //     var sceneLoaderEvent =
-        //         (IntegerEvent) ServiceLocator.GetService<EventQueue>().GetEventWithEventId(sceneLoaderEventId);
-        //     sceneLoaderEvent.IntegerEventSender += OnNewSceneLoaderEvent;
-        // }
-        //
-        // private void OnNewSceneLoaderEvent(object source, IntegerEventData args)
-        // {
-        //     SceneManager.LoadScene(args.Value);
-        // }
-        //
-        // private void OnDisable()
-        // {
-        //     var sceneLoaderEvent =
-        //         (IntegerEvent)ServiceLocator.GetService<EventQueue>().GetEventWithEventId(sceneLoaderEventId);
-        //     sceneLoaderEvent.IntegerEventSender -= OnNewSceneLoaderEvent;
-        // }
+        private void Start()
+        {
+            var sceneLoaderEvent =
+                (IntegerEvent) ServiceLocator.GetService<EventQueue>().GetEventWithEventId(sceneLoaderEventId);
+            sceneLoaderEvent.IntegerEventSender += OnNewSceneLoaderEvent;
+        }
+        
+        private void OnNewSceneLoaderEvent(object source, IntegerEventData args)
+        {
+            SceneManager.LoadScene(args.Value);
+        }
+        
+        private void OnDisable()
+        {
+            var sceneLoaderEvent =
+                (IntegerEvent)ServiceLocator.GetService<EventQueue>().GetEventWithEventId(sceneLoaderEventId);
+            sceneLoaderEvent.IntegerEventSender -= OnNewSceneLoaderEvent;
+        }
     }
 }
