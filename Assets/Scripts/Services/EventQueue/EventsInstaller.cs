@@ -12,5 +12,7 @@ public class EventsInstaller : GameService
         {
             ServiceLocator.GetService<EventQueue>().AddNewEventSender(newEvent.Id, newEvent.EventSender);
         }
+
+        IsInstallationDone = true;
     }
 }

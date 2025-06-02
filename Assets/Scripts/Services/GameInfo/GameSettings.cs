@@ -1,10 +1,10 @@
 using System.Collections.Generic;
+using Services.SettingsApplier;
 using UnityEngine;
 
 public class GameSettings
 {
     public Dictionary<string, int> Settings { get; set; } = new();
-
    
     public void SetupSettings(List<SubOptionSO> allSettings)
     {
@@ -23,7 +23,6 @@ public class GameSettings
 
     private void FillWithPermanentDataSavedValue()
     {
-        
         ServiceLocator.GetService<IPermanentData>().LoadGroupOfData(Settings);
     }
 
@@ -31,18 +30,29 @@ public class GameSettings
     {
         if (Settings.ContainsKey(key))
         {
+            if (Settings[key] == newValue)
+            {
+                return;
+            }
             Settings[key] = newValue;
-            SavePermanentValueWithKey(key);        
+            SavePermanentValueWithKey(key);    
+            ApplySettingWithKey(key);
             return;
         }
         
         Settings.Add(key, newValue);
-        SavePermanentValueWithKey(key);   
+        SavePermanentValueWithKey(key);
+        ApplySettingWithKey(key);
     }
     
     private void SavePermanentValueWithKey(string key)
     {
         var value = Settings[key];
         ServiceLocator.GetService<IPermanentData>().SaveSingleData(key, value);
+    }
+
+    private static void ApplySettingWithKey(string key)
+    {
+        ServiceLocator.GetService<AllSettingAppliersInstaller>().ApplySettingWith(key);
     }
 }

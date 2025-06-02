@@ -16,6 +16,8 @@ public class GameInfoFacade: GameService
         var listOfSettings = settingsMenuSO.AllSubOptions;
 
         _gameSettings.SetupSettings(listOfSettings);
+
+        IsInstallationDone = true;
     }
 
     public int GetLastSettingsValueSelectedFromKey(string key)

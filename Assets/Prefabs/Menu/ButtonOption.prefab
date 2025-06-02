@@ -286,6 +286,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   text: {fileID: 7123164592667241440}
   icon: {fileID: 1162901827562329572}
+  localizationEventId: {fileID: 11400000, guid: cb6b0fc69013ad54f8ffbfc4a4754c98, type: 2}
 --- !u!114 &5091962195013501785
 MonoBehaviour:
   m_ObjectHideFlags: 0

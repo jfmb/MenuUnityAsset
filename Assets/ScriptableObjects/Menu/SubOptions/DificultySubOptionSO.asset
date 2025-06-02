@@ -15,8 +15,9 @@ MonoBehaviour:
   subOptionId: {fileID: 11400000, guid: 683a202238838ac45be2c75eab448795, type: 2}
   title: Dificulty
   icon: {fileID: 0}
-  allValues:
+  allValueLocalizationKeys:
   - Easy
   - Medium
   - Hard
-  defaultValueIndex: 2
+  defaultValueIndex: 1
+  simpleEventWhenValueChangesId: {fileID: 0}
