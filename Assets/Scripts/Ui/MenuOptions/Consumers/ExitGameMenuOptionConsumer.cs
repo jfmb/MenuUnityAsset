@@ -5,7 +5,7 @@ public class ExitGameMenuOptionConsumer : MenuOption
 {
     public override void Execute()
     {
-        Debug.Log("Exit game");
+        Debug.Log("Exiting game...");
         Application.Quit();
     }
 }
