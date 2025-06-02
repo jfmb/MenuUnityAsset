@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -17,15 +18,15 @@ namespace Services.Languages
         
         private Languages _languagesInGame = new ();
 
-        private Localization _localization = new();        
-        
+        private Localization _localization = new();
         
         private LocalizationDataParser _localizationDataParser = new LocalizationDataParser();
+        
         public override void Install()
         {
             InstallLocalization();
-
         }
+
 
         private void InstallLocalization()
         {
@@ -102,6 +103,8 @@ namespace Services.Languages
             }
 
             InstallLanguagesInServiceLocator();
+            
+            IsInstallationDone = true;
         }
         
         private bool IsTwoLetterNameIsoValid(string language)

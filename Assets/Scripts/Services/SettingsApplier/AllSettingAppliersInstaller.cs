@@ -21,6 +21,8 @@ namespace Services.SettingsApplier
             
             DontDestroyOnLoad(this);
             ServiceLocator.RegisterService(this);
+            
+            IsInstallationDone = true;
         }
 
         private void CreateAllSettingAppliers()

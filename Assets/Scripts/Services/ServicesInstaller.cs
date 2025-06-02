@@ -2,6 +2,7 @@
 using DefaultNamespace;
 using Services.EventQueue.Classes.EventData;
 using Services.EventQueue.Events.ScriptableObjects;
+using Services.Languages;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -13,8 +14,8 @@ namespace Services
         [SerializeField] private AllScenes nextScene;
         [SerializeField] private EventQueueInstaller eventQueueInstaller;
         [SerializeField] private EventsInstaller eventsInstaller;
-        [SerializeField] private GameService[] servicesToInstall;
         [SerializeField] private GameService languagesInstaller;
+        [SerializeField] private GameService[] servicesToInstall;
         
         private void Awake()
         {
@@ -33,27 +34,20 @@ namespace Services
 
         private void InstallGameServicesFromGameObjects()
         {
-            // languagesInstaller.Install();
-            // Debug.Log("My debug: localization and languages installed!!!");
-            // foreach (var newService in servicesToInstall)
-            // {
-            //     newService.Install();
-            // }
-            //
-            // StartNextScene();
-            //
             StartCoroutine(InstallLanguages());
         }
 
         private void InstallDeviceAdapters()
         {
-//            ServiceLocator.RegisterService(deviceAdaptersInjector);
+            //TODO: install adapters for each device. For Example: achievements
         }
 
         private IEnumerator InstallLanguages()
         {
             languagesInstaller.Install();
-            yield return null;
+            
+            yield return new WaitUntil(()=>languagesInstaller.IsDone());
+            
             Debug.Log("My debug: localization and languages installed!!!");
             foreach (var newService in servicesToInstall)
             {
