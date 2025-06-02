@@ -9,5 +9,7 @@ public class EventQueueInstaller : GameService
     {
         DontDestroyOnLoad(eventQueue.gameObject);
         ServiceLocator.RegisterService(eventQueue);
+        
+        IsInstallationDone = true;
     }
 }

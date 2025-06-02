@@ -58,5 +58,6 @@ public class PlayerPrefsPermanentDataAdapter: IPermanentData
 
     public void DeleteAllData()
     {
+        PlayerPrefs.DeleteAll();
     }
 }

@@ -1,7 +1,10 @@
-﻿using DefaultNamespace;
+﻿using System.Collections;
+using DefaultNamespace;
 using Services.EventQueue.Classes.EventData;
 using Services.EventQueue.Events.ScriptableObjects;
+using Services.Languages;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Services
 {
@@ -11,22 +14,19 @@ namespace Services
         [SerializeField] private AllScenes nextScene;
         [SerializeField] private EventQueueInstaller eventQueueInstaller;
         [SerializeField] private EventsInstaller eventsInstaller;
+        [SerializeField] private GameService languagesInstaller;
         [SerializeField] private GameService[] servicesToInstall;
         
         private void Awake()
         {
-            InstalPermanentDataSaver();
+            InstallPermanentDataSaver();
             InstallDeviceAdapters();
-            InstallLanguages();
 
             InstallGameServicesFromGameObjects();
             
-            StartNextScene();
-
-            Debug.Log("Services installed");
         }
 
-        private void InstalPermanentDataSaver()
+        private void InstallPermanentDataSaver()
         {
             var playerPrefsPermanentDataAdapter = new PlayerPrefsPermanentDataAdapter();
             ServiceLocator.RegisterService<IPermanentData>(playerPrefsPermanentDataAdapter);
@@ -34,21 +34,30 @@ namespace Services
 
         private void InstallGameServicesFromGameObjects()
         {
-            foreach (var newService in servicesToInstall)
-            {
-                newService.Install();
-            }
+            StartCoroutine(InstallLanguages());
         }
 
         private void InstallDeviceAdapters()
         {
-//            ServiceLocator.RegisterService(deviceAdaptersInjector);
+            //TODO: install adapters for each device. For Example: achievements
         }
 
-        private void InstallLanguages()
+        private IEnumerator InstallLanguages()
         {
-            // languagesInstaller.Install();
-            // ServiceLocator.RegisterService(languagesInstaller);
+            languagesInstaller.Install();
+            
+            yield return new WaitUntil(()=>languagesInstaller.IsDone());
+            
+            Debug.Log("My debug: localization and languages installed!!!");
+            foreach (var newService in servicesToInstall)
+            {
+                newService.Install();
+            }
+            
+            StartNextScene();
+
+            Debug.Log("Services installed");
+
         }
         
         // private void ReadSettingsJsonFile()
@@ -79,7 +88,9 @@ namespace Services
         {
             var args = new IntegerEventData((int)nextScene);
             Debug.Log("before enqueue");
-            ServiceLocator.GetService<EventQueue.EventQueue>().EnqueueEvent(nextSceneEventId, args);
+//            ServiceLocator.GetService<EventQueue.EventQueue>().EnqueueEvent(nextSceneEventId, args);
+            
+            SceneManager.LoadScene(args.Value);
         }
     }
 }

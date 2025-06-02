@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   subOptionId: {fileID: 11400000, guid: ac04ad66137718546b8e840315318632, type: 2}
   title: Language
-  allValues:
+  icon: {fileID: 0}
+  allValueLocalizationKeys:
   - Spanish
   - English
   defaultValueIndex: 1
+  simpleEventWhenValueChangesId: {fileID: 11400000, guid: cb6b0fc69013ad54f8ffbfc4a4754c98, type: 2}

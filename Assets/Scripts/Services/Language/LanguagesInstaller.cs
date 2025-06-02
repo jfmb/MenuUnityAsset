@@ -1,24 +1,84 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace Services.Languages
 {
     public class LanguagesInstaller : GameService
     {
         [SerializeField] private SubOptionSO languageSettings;
-        [SerializeField] private List<string> languagesAvailable;
+
+        private const string LocalizationFile = "localization.csv";
+
+        private List<string> _languagesAvailable = new();
         
-        private Languages _languagesInGame = new Languages();
+        private Languages _languagesInGame = new ();
+
+        private Localization _localization = new();
+        
+        private LocalizationDataParser _localizationDataParser = new LocalizationDataParser();
         
         public override void Install()
         {
-            languagesAvailable = languageSettings.AllValues;
+            InstallLocalization();
+        }
 
-            for (var i = 0; i < languagesAvailable.Count; i++)
+
+        private void InstallLocalization()
+        {
+            StartCoroutine(LoadLocalizationFile(LocalizationFile));
+        }
+
+        private IEnumerator LoadLocalizationFile(string fileName)
+        {
+            string filePath = System.IO.Path.Combine(Application.streamingAssetsPath, fileName);
+
+            UnityWebRequest www = UnityWebRequest.Get(filePath);
+            yield return www.SendWebRequest();
+
+            if (www.result != UnityWebRequest.Result.Success)
             {
-                var language = languagesAvailable[i];
+//                Debug.Log(www.error);
+                Debug.Log("Localization file not found");
+            }
+            else
+            {
+                ParseLocalizationData(www.downloadHandler.text);
+            }
+        }
+
+        private void ParseLocalizationData(string csvData)
+        {
+            var lines = csvData.Replace("\r", "").Split('\n');
+            var headers = lines[0].Split(',').Skip(1).ToArray();
+            _localization.LocalizationData = _localizationDataParser.Parse(lines, headers);
+
+            AddLanguagesAvailable(headers);
+            
+//            AddLocalizations(lines, headers);
+            
+            ServiceLocator.RegisterService(_localization);
+            InstallLanguages();
+        }
+
+        private void AddLanguagesAvailable(string[] headers)
+        {
+            foreach (var field in headers)
+            {
+                var newLanguage = field.ToLower();
+                _languagesAvailable.Add(newLanguage);
+            }
+        }
+        
+        private void InstallLanguages()
+        {
+            for (var i = 0; i < _languagesAvailable.Count; i++)
+            {
+                var language = _languagesAvailable[i];
                 var twoLettersName = CultureInfo.GetCultureInfoByIetfLanguageTag(language).TwoLetterISOLanguageName;
                 if (!IsTwoLetterNameIsoValid(twoLettersName))
                 {
@@ -30,6 +90,7 @@ namespace Services.Languages
                     }
                     continue;
                 }
+                
                 var newCultureInfo = new CultureInfo(twoLettersName);
                 _languagesInGame.Add(twoLettersName, newCultureInfo);
                 
@@ -41,19 +102,20 @@ namespace Services.Languages
                 }
             }
 
-//            DontDestroyOnLoad(languagesInGame);
             InstallLanguagesInServiceLocator();
+            
+            IsInstallationDone = true;
+        }
+        
+        private bool IsTwoLetterNameIsoValid(string language)
+        {
+            var cultures = CultureInfo.GetCultures(CultureTypes.AllCultures);
+            return cultures.Any(culture => culture.TwoLetterISOLanguageName == language);
         }
 
         private void InstallLanguagesInServiceLocator()
         {
             ServiceLocator.RegisterService(_languagesInGame);
-        }
-
-        private bool IsTwoLetterNameIsoValid(string language)
-        {
-            var cultures = CultureInfo.GetCultures(CultureTypes.AllCultures);
-            return cultures.Any(culture => culture.TwoLetterISOLanguageName == language);
         }
     }
 }

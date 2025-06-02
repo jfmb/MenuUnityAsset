@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c4bc326ded488e947500a74f97f14f, type: 3}
+  m_Name: ConfirmExitGameOptionSO
+  m_EditorClassIdentifier: 
+  optionId: {fileID: 11400000, guid: 2b6eecfec55a5884eba72dca7427db6f, type: 2}
+  eventId: {fileID: 11400000, guid: d89fb3a21def9f2408f7a651f6ec71d5, type: 2}
+  text: ExitGameMenuOptionId
+  icon: {fileID: 3285044355099347766, guid: 900a479b4a4446b43827d79ff012ce6d, type: 3}

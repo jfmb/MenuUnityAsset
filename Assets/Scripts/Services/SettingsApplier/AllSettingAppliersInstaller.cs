@@ -6,15 +6,23 @@ namespace Services.SettingsApplier
     public class AllSettingAppliersInstaller : GameService
     {
         [SerializeField] private List<SingleSettingApplier> allSingleSettingsAppliers;
-
+        [SerializeField] private bool removePreviousSettingsSaved;
+        
         private Dictionary<string, SingleSettingApplier> _allSettings = new ();
         
         public override void Install()
         {
+            if (removePreviousSettingsSaved)
+            {
+                ServiceLocator.GetService<IPermanentData>().DeleteAllData();
+            }
+            
             CreateAllSettingAppliers();
             
             DontDestroyOnLoad(this);
             ServiceLocator.RegisterService(this);
+            
+            IsInstallationDone = true;
         }
 
         private void CreateAllSettingAppliers()
