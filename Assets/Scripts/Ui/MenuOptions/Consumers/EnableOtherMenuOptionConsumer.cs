@@ -4,7 +4,7 @@ using Services.EventQueue.Events.ScriptableObjects;
 using Ui.MenuOptions.Interfaces;
 using UnityEngine;
 
-public class SettingsOptionConsumer : MenuOption
+public class EnableOtherMenuOptionConsumer : MenuOption
 {
     [SerializeField] private EventId menuToEnableEventId;
     [SerializeField] private MenuId menuToEnableId;
