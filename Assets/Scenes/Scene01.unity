@@ -892,9 +892,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4747151564632844780}
   - component: {fileID: 8365628161108588348}
-  - component: {fileID: 7803308179057658688}
-  - component: {fileID: 3626439322687320101}
-  - component: {fileID: 7010728206686075607}
   - component: {fileID: 8365628161108588349}
   - component: {fileID: 8365628161108588350}
   m_Layer: 0
@@ -1020,6 +1017,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1001805169456902694}
   - component: {fileID: 2550983976983692252}
+  - component: {fileID: 2550983976983692255}
+  - component: {fileID: 2550983976983692254}
+  - component: {fileID: 2550983976983692253}
   m_Layer: 0
   m_Name: InputListener
   m_TagString: Untagged
@@ -1288,6 +1288,46 @@ MonoBehaviour:
   playerInputListener: {fileID: 79754627044082218}
   menuToEnableEventId: {fileID: 11400000, guid: ae9daea5d90583d41a601dab73bb2753, type: 2}
   menuToEnableId: {fileID: 11400000, guid: d067784fe34ce8a43b6d22171dc79c41, type: 2}
+--- !u!114 &2550983976983692253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1649749730933261046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ba4595227f445d4fb75869a68caf669, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isGamepadConectedId: {fileID: 11400000, guid: 46a78268ba6ddb24eb4c91dae93aa4df, type: 2}
+  usingGamepadEventId: {fileID: 11400000, guid: bf601cffb7fee7e43a807d61487d4666, type: 2}
+--- !u!114 &2550983976983692254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1649749730933261046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8a716c9c11545b4b9b7c38161cbd148, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  usingMouseEventId: {fileID: 11400000, guid: 6f37cac95f8ee3d49bffcb1eb8e3f7c7, type: 2}
+--- !u!114 &2550983976983692255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1649749730933261046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59d867ffb9e67ea45adf07fec70c0f21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  usingKeyboardEventId: {fileID: 11400000, guid: b9866d26012630f4f9003ffa3973bcf9, type: 2}
 --- !u!222 &2596722888297041412
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1581,19 +1621,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &3626439322687320101
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 949121658430983426}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a8a716c9c11545b4b9b7c38161cbd148, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  usingMouseEventId: {fileID: 11400000, guid: 6f37cac95f8ee3d49bffcb1eb8e3f7c7, type: 2}
 --- !u!114 &3772839613295519705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2471,20 +2498,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6116913954000308918}
   m_CullTransparentMesh: 1
---- !u!114 &7010728206686075607
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 949121658430983426}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ba4595227f445d4fb75869a68caf669, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isGamepadConectedId: {fileID: 11400000, guid: 46a78268ba6ddb24eb4c91dae93aa4df, type: 2}
-  usingGamepadEventId: {fileID: 11400000, guid: bf601cffb7fee7e43a807d61487d4666, type: 2}
 --- !u!114 &7031295264292577691
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2716,19 +2729,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 1
---- !u!114 &7803308179057658688
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 949121658430983426}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59d867ffb9e67ea45adf07fec70c0f21, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  usingKeyboardEventId: {fileID: 11400000, guid: b9866d26012630f4f9003ffa3973bcf9, type: 2}
 --- !u!4 &7916952706995964752
 Transform:
   m_ObjectHideFlags: 0
@@ -2892,9 +2892,9 @@ MonoBehaviour:
   uiLeftEventId: {fileID: 11400000, guid: 1d756fa6e23d6414e9f1e86b3600b040, type: 2}
   uiRightEventId: {fileID: 11400000, guid: ee2c6b756aa1c0447a558b1d978730b4, type: 2}
   isGamepadConnectedId: {fileID: 11400000, guid: 46a78268ba6ddb24eb4c91dae93aa4df, type: 2}
-  keyboardDetector: {fileID: 7803308179057658688}
-  mouseDetector: {fileID: 3626439322687320101}
-  gampepadDetector: {fileID: 7010728206686075607}
+  keyboardDetector: {fileID: 2550983976983692255}
+  mouseDetector: {fileID: 2550983976983692254}
+  gampepadDetector: {fileID: 2550983976983692253}
 --- !u!114 &8365628161108588349
 MonoBehaviour:
   m_ObjectHideFlags: 0
